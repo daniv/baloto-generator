@@ -1,3 +1,11 @@
+"""
+Verify Baloto and Revancha schema validation and computed behavior.
+
+The module covers valid model construction, field constraints, date parsing,
+number ordering, accumulated-prize rules, payout details, type discrimination,
+and combination identifiers for both Baloto and Revancha result schemas.
+"""
+
 from datetime import date
 from typing import TYPE_CHECKING
 

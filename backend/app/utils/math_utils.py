@@ -1,3 +1,12 @@
+"""
+Provide deterministic helpers for lottery-number calculations.
+
+The module converts validated lottery combinations into compact hexadecimal
+identifiers. It centralizes the numeric encoding logic used by result schemas,
+tests, and any downstream process that needs a stable representation of a draw.
+"""
+
+
 def numbers_to_hex(numbers: tuple[int, int, int, int, int], size: int) -> str:
     """
     Convert 5 lottery numbers to an uppercase hexadecimal bitmap.

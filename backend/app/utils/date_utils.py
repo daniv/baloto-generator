@@ -1,3 +1,11 @@
+"""
+Provide localized date-formatting helpers for lottery result data.
+
+The module converts ``datetime.date`` values into consistent Spanish-language
+representations used by schemas, API responses, and tests. It exposes abbreviated,
+long, and full formats while keeping locale-specific formatting logic centralized.
+"""
+
 from typing import TYPE_CHECKING
 
 from babel.dates import format_date

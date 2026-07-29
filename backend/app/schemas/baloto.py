@@ -1,3 +1,12 @@
+"""
+Define validation schemas for Baloto and Revancha draw results.
+
+The module contains the shared schema behavior for both lottery products,
+including winning-number validation, accumulated-prize data, result details,
+combination identifiers, and the public type discriminator used to distinguish
+Baloto records from Revancha records.
+"""
+
 from abc import ABC, abstractmethod
 from typing import Annotated, Self
 
@@ -77,18 +86,42 @@ class _SharedBalotoRevanchaResultSchema(BalotoMilotoBaseShema, ABC):
 
 
 class BalotoResultSchema(_SharedBalotoRevanchaResultSchema):
+    """
+    Represent a validated Baloto result returned by the application.
+
+    The schema extends the shared Baloto/Revancha structure with the Baloto
+    type discriminator. It is used for validation, serialization, ORM mapping,
+    and API responses that must distinguish Baloto records from Revancha records.
+    """
+
     _type: str = PrivateAttr(default="B")
 
     @property
     def type(self) -> str:
-        # Exposes the private attribute publicly for reading
+        """
+        Return the public discriminator for a Baloto result.
+
+        :return: The Baloto result type code.
+        """
         return self._type
 
 
 class RevanchaResultSchema(_SharedBalotoRevanchaResultSchema):
+    """
+    Represent a validated Revancha result returned by the application.
+
+    The schema extends the shared Baloto/Revancha structure with the Revancha
+    type discriminator. It is used for validation, serialization, ORM mapping,
+    and API responses that must distinguish Revancha records from Baloto records.
+    """
+
     _type: str = PrivateAttr(default="R")
 
     @property
     def type(self) -> str:
-        # Exposes the private attribute publicly for reading
+        """
+        Return the public discriminator for a Baloto result.
+
+        :return: The Baloto result type code.
+        """
         return self._type
