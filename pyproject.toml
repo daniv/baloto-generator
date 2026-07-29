@@ -4,4 +4,51 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "asyncpg>=0.31.0",
+    "babel>=2.18.0",
+    "dateparser>=1.4.1",
+    "fastapi[standard]>=0.140.12",
+    "rich>=15.0.0",
+    "sqlalchemy[asyncio]>=2.0.51",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-env>=1.7.0",
+    "testcontainers[postgres]>=4.15.0",
+]
+
+[tool.pytest]
+minversion = "9.0"
+python_files = ["tests_*.py", "*._tests"]
+python_functions = [
+    "test_*",
+]
+testpaths = [
+    "backend/tests",
+]
+strict = true
+markers = [
+    "unit: Unit test marker",
+    "db: Database test marker",
+]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--tb=short",
+    "-v",
+    "-s",
+]
+pythonpath = [
+    ".",
+]
+
+[tool.pytest_env]
+# https://github.com/pytest-dev/pytest-env
+# uv run pytest --pytest-env-verbose
+# uv run pytest --envfile .env.test  
+env_files = [".env", ".env.test"]
+FORCE_COLOR = "1"
+env_files_skip_if_set = true

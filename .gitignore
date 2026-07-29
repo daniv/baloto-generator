@@ -8,3 +8,43 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+.svelte-kit/
+coverage/
+
+
+# Environment and local secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# OpenCode local dependencies
+.opencode/node_modules/
+
+# OpenSpec local output
+openspec/.cache/
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.log
+reports/
+.coverage
