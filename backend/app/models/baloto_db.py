@@ -1,4 +1,10 @@
-"""Define the SQLAlchemy model for Baloto draw results."""
+"""
+Define the Baloto result persistence model.
+
+The module maps Baloto draw data to the ``baloto_results`` table, including
+winning numbers, the Super Balota value, accumulated prizes, payout details,
+timestamps, uniqueness constraints, and database-level validation rules.
+"""
 
 from datetime import datetime  # noqa: TC003 -- SQLAlchemy resolves Mapped annotations at runtime.
 from typing import Any
@@ -11,6 +17,15 @@ from app.models.base import Base
 
 
 class BalotoResult(Base):
+    """
+    Map a Baloto draw result to the ``baloto_results`` database table.
+
+    The model stores the draw identifier and date, ordered winning numbers,
+    Super Balota value, accumulated jackpot, prize distributions, and audit
+    timestamps. Table constraints enforce valid number ranges, ascending order,
+    and uniqueness for each draw.
+    """
+
     __tablename__ = "baloto_results"
 
     game_id: Mapped[int] = mapped_column(Integer, primary_key=True)

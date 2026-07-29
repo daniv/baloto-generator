@@ -1,4 +1,10 @@
-"""Define the SQLAlchemy model for MiLoto draw results."""
+"""
+Define the MiLoto result persistence model.
+
+The module maps MiLoto draw data to the ``miloto_results`` table, including
+the ordered winning-number combination, accumulated prizes, payout details,
+timestamps, uniqueness constraints, and database-level validation rules.
+"""
 
 from datetime import datetime  # noqa: TC003 -- SQLAlchemy resolves Mapped annotations at runtime.
 from typing import Any
@@ -11,6 +17,15 @@ from app.models.base import Base
 
 
 class MilotoResult(Base):
+    """
+    Map a MiLoto draw result to the ``miloto_results`` database table.
+
+    The model stores the draw identifier and date, ordered winning numbers,
+    accumulated jackpot, prize distributions, and audit timestamps. Database
+    constraints enforce valid number ranges, ascending order, and uniqueness
+    for each recorded draw.
+    """
+
     __tablename__ = "miloto_results"
 
     game_id: Mapped[int] = mapped_column(Integer, primary_key=True)

@@ -1,3 +1,11 @@
+"""
+Define the Revancha result persistence model.
+
+The module maps Revancha draw data to the ``revancha_results`` table,
+including winning numbers, prize information, timestamps, uniqueness
+constraints, and database-level validation rules.
+"""
+
 from datetime import datetime  # noqa: TC003 -- SQLAlchemy resolves Mapped annotations at runtime.
 from typing import Any
 
@@ -9,6 +17,15 @@ from app.models.base import Base
 
 
 class RevanchaResult(Base):
+    """
+    Map a Revancha draw result to the ``revancha_results`` database table.
+
+    The model stores the draw identifier and date, ordered winning numbers,
+    the Revancha-specific prize distributions, and audit timestamps. Database
+    constraints enforce valid ranges, ascending order, and uniqueness for each
+    recorded draw.
+    """
+
     __tablename__ = "revancha_results"
 
     game_id: Mapped[int] = mapped_column(Integer, primary_key=True)

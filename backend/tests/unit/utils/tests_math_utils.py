@@ -1,4 +1,10 @@
-from __future__ import annotations
+"""
+Verify deterministic lottery-number encoding utilities.
+
+The module tests conversion of validated number combinations into stable
+hexadecimal identifiers. It covers representative combinations, boundary
+values, output consistency, and invalid input scenarios used by result schemas.
+"""
 
 import pytest
 from app.utils.math_utils import numbers_to_hex

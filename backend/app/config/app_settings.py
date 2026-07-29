@@ -1,4 +1,11 @@
-"""Define and validate application, database, and lottery configuration settings."""
+"""
+Define validated configuration models for the backend application.
+
+The module centralizes application metadata, lottery-specific limits, database
+connection settings, console configuration, and environment-driven values. It
+uses Pydantic settings models to validate defaults, load values from environment
+files, and reject insecure database credentials before the application starts.
+"""
 
 import calendar
 from datetime import date
@@ -19,6 +26,15 @@ from rich.console import Console
 
 
 class BalotoModel(BaseModel):
+    """
+    Store validated domain limits and defaults for supported lottery games.
+
+    The model centralizes number ranges, jackpot thresholds, and other immutable
+    configuration values used by Baloto, Revancha, and MiLoto schemas. Keeping
+    these rules in one validated object prevents domain constraints from being
+    duplicated across models, API handlers, and tests.
+    """
+
     model_config = ConfigDict(populate_by_name=True, frozen=True)
 
     miloto_first_id: Annotated[int, Field(ge=1, description="The first miloto game id. default 1")] = 1
@@ -62,6 +78,15 @@ class BalotoModel(BaseModel):
 
 
 class DatabaseSettings(BaseSettings):
+    """
+    Load and validate PostgreSQL connection settings from the environment.
+
+    The model owns database credentials, host information, connection options,
+    and the derived connection URL used by SQLAlchemy. It also validates the
+    configured password so the insecure default value cannot reach application
+    startup.
+    """
+
     model_config = SettingsConfigDict(
         validate_default=True, case_sensitive=False, env_file="../.env", env_file_encoding="utf-8"
     )
@@ -88,6 +113,12 @@ class DatabaseSettings(BaseSettings):
 
     @model_validator(mode="after")
     def verify_db_password_is_changed(self) -> Self:
+        """
+        Reject the insecure default database password during validation.
+
+        :return: The validated database settings instance.
+        :raises ValueError: If the configured database password is still ``CHANGE_ME``.
+        """
         if self.db_password.get_secret_value() == "CHANGE_ME":
             err_msg = "Security Alert: You must override the default DB password!"
             raise ValueError(err_msg)
@@ -95,12 +126,28 @@ class DatabaseSettings(BaseSettings):
 
 
 class ApplicationSettings(BaseSettings):
+    """
+    Store public metadata used to describe the backend application.
+
+    The model provides the application title, version, and human-readable
+    description consumed when creating the FastAPI instance and generating
+    its OpenAPI documentation.
+    """
+
     title: str = "Generador Baloto"
     version: str = "0.1.0"
     description: str = "API for lottery combination generation and historical statistics"
 
 
 class Settings(BaseSettings):
+    """
+    Aggregate validated configuration required by the backend application.
+
+    The model combines database settings, lottery rules, application metadata,
+    and Rich console instances into a single settings object imported by the
+    API, persistence, and schema layers.
+    """
+
     model_config = SettingsConfigDict(validate_default=True)
 
     db_settings: DatabaseSettings = Field(default_factory=DatabaseSettings)

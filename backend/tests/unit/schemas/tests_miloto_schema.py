@@ -1,3 +1,11 @@
+"""
+Verify MiLoto schema validation, formatting, and computed behavior.
+
+The module covers valid model construction, field constraints, Spanish date
+parsing, winning-number ordering, accumulated-prize rules, payout details,
+formatted date properties, and deterministic combination identifiers.
+"""
+
 from datetime import date
 from typing import TYPE_CHECKING
 

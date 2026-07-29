@@ -1,4 +1,10 @@
-from __future__ import annotations
+"""
+Verify Spanish date-formatting helpers used by lottery result schemas.
+
+The module tests abbreviated, long, and full date representations across
+representative calendar values. It ensures formatting remains consistent,
+localized, and suitable for API responses and computed schema properties.
+"""
 
 from datetime import date
 

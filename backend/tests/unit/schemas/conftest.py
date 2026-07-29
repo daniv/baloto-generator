@@ -1,3 +1,11 @@
+"""
+Provide reusable pytest fixtures for lottery schema unit tests.
+
+The module builds valid Baloto, Revancha, and MiLoto schema instances with
+customizable values. These factories keep test setup consistent, reduce repeated
+construction logic, and make validation scenarios easier to express and maintain.
+"""
+
 from typing import TYPE_CHECKING, Any
 
 import pytest
