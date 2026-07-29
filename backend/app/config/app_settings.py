@@ -92,6 +92,11 @@ class DatabaseSettings(BaseSettings):
         return self
 
 
+class ApplicationSettings(BaseSettings):
+    title: str = "Generador Baloto"
+    version: str = "0.1.0"
+    description = "API for lottery combination generation and historical statistics"
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(validate_default=True)
 
@@ -99,6 +104,7 @@ class Settings(BaseSettings):
     console: Console = Console(color_system="truecolor", force_terminal=True)
     error_console: Console = Console(color_system="256", force_terminal=True, stderr=True)
     baloto_settings: BalotoModel = Field(default_factory=BalotoModel)
+    app_settings: ApplicationSettings = Field(default_factory=ApplicationSettings)
 
     app_name: str = "Awesome API"
     # admin_email: str
