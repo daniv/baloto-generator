@@ -2,9 +2,9 @@ from datetime import date
 from typing import TYPE_CHECKING
 
 import pytest
-from backend.app.config.app_settings import settings
-from backend.app.schemas.baloto import BalotoResultSchema, RevanchaResultSchema
-from backend.app.schemas.base import ResultDetailsSchema
+from app.config.app_settings import settings
+from app.schemas.baloto import BalotoResultSchema, RevanchaResultSchema
+from app.schemas.base import ResultDetailsSchema
 from pydantic import ValidationError
 
 if TYPE_CHECKING:
@@ -16,8 +16,7 @@ if TYPE_CHECKING:
 
 a_date = date(2026, 7, 25)
 baloto_default_accumulated = settings.baloto_settings.baloto_min_jackpot
-updates: dict[str, ResultDetailsSchema | int] = {
-    "accumulated": baloto_default_accumulated,
+updates: dict[str, ResultDetailsSchema] = {
     "hits_sb": ResultDetailsSchema(prize_for_winner=10_000, winners=50),
     "hits_2_sb": ResultDetailsSchema(prize_for_winner=20_000, winners=25),
     "hits_3": ResultDetailsSchema(prize_for_winner=30_000, winners=20),
@@ -34,8 +33,9 @@ updates: dict[str, ResultDetailsSchema | int] = {
 # region Module fixtures
 
 
-@pytest.fixture(name="schema", scope="module", autouse=False)
+@pytest.fixture(name="schema", scope="module", autouse=True)
 def baloto_revancha_schema(br_factory: Callable[..., BalotoSchema]) -> BalotoSchema:
+    """Fixture that returns a valid basic type BalotoSchema instance."""
     return br_factory(gid=1, dte=a_date, n1=5, n2=12, n3=18, n4=25, n5=33, ba=7)
 
 
@@ -165,9 +165,9 @@ def test_numbers_outside_range_raise_error(
         br_factory(gid=1, dte=a_date, n1=num_1, n2=num_2, n3=num_3, n4=num_4, n5=num_5, ba=7)
 
     errors = exc_info.value.errors()
-    target = [e for e in errors if ex_field in e["loc"]][0]
-    assert target.get("input") == ex_input, "Unexpected 'error.input' value."
-    assert target.get("type") == ex_type, "Unexpected 'error.type' value."
+    error = next(e for e in errors if ex_field in e["loc"])
+    assert error.get("input") == ex_input, "Unexpected 'error.input' value."
+    assert error.get("type") == ex_type, "Unexpected 'error.type' value."
     assert any(ex_field in e["loc"] for e in errors), "Unexpected error on 'error.loc' value."
 
 
@@ -195,9 +195,9 @@ def test_accumulated_raises_error(schema: BalotoResultSchema, accumulated: int) 
 
     Accumulated prize must be non-negative per Field(ge=0).
     """
+    model_dump = schema.model_dump()
+    model_dump["accumulated"] = accumulated
     with pytest.raises(ValidationError) as exc_info:
-        model_dump = schema.model_dump()
-        model_dump["accumulated"] = accumulated
         BalotoResultSchema(**model_dump)
 
     errors = exc_info.value.errors()
@@ -241,9 +241,9 @@ def test_position_range_violation(
 
     errors = exc_info.value.errors()
     assert any(ex_field in e["loc"] for e in errors), "Unexpected 'error.loc' value."
-    target = [e for e in errors if ex_field in e["loc"]][0]
-    assert target.get("input") == ex_input, "Unexpected 'error.input' value."
-    assert target.get("type") == ex_type, "Unexpected 'error.type' value."
+    error = next(e for e in errors if ex_field in e["loc"])
+    assert error.get("input") == ex_input, "Unexpected 'error.input' value."
+    assert error.get("type") == ex_type, "Unexpected 'error.type' value."
 
 
 @pytest.mark.unit
@@ -277,10 +277,10 @@ def test_game_date_type_error_on_invalid_type(br_factory: Callable[..., BalotoSc
     assert error["type"] == "value_error", "Unexpected 'error.type' value"
     assert "Invalid Spanish date" in error["msg"], "Unexpected 'error.type' value"
 
+    data = br_factory(gid=1, dte=a_date, n1=5, n2=12, n3=18, n4=25, n5=33, ba=7)
+    model_dict = data.model_dump()
+    model_dict["game_date"] = 12345
     with pytest.raises(TypeError, match="game_date must be a Spanish date string"):
-        data = br_factory(gid=1, dte=a_date, n1=5, n2=12, n3=18, n4=25, n5=33, ba=7)
-        model_dict = data.model_dump()
-        model_dict["game_date"] = 12345
         BalotoResultSchema(**model_dict)
 
 

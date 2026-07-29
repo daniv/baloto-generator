@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import date
 
 import pytest
-from backend.app.utils.date_utils import abbreviated_date, full_date, long_date
+from app.utils.date_utils import abbreviated_date, full_date, long_date
 
 
 @pytest.mark.unit

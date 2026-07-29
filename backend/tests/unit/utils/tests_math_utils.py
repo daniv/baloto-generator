@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import pytest
-from backend.app.utils.math_utils import numbers_to_hex
+from app.utils.math_utils import numbers_to_hex
 
 
 @pytest.mark.unit

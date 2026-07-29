@@ -1,20 +1,26 @@
 from typing import TYPE_CHECKING, Any
 
 import pytest
-from backend.app.config.app_settings import settings
-from backend.app.schemas.baloto import BalotoResultSchema, RevanchaResultSchema
-from backend.app.schemas.base import ResultDetailsSchema
-from backend.app.schemas.miloto import MilotoResultSchema
+from app.config.app_settings import settings
+from app.schemas.baloto import BalotoResultSchema, RevanchaResultSchema
+from app.schemas.miloto import MilotoResultSchema
 
 if TYPE_CHECKING:
-    from pytest import FixtureRequest
     from collections.abc import Callable
     from datetime import date
+
     type BalotoResult = BalotoResultSchema | RevanchaResultSchema
 
 
 @pytest.fixture(name="br_factory", scope="module", params=["revancha", "baloto"])
-def baloto_revancha_factory(request: FixtureRequest) -> Callable[..., BalotoResult]:
+def baloto_revancha_factory(request: pytest.FixtureRequest) -> Callable[..., BalotoResult]:
+    """
+    Create a Callable[..., BalotoResult] fixture for parameterized factory tests.
+
+    The parameterized factory returns a RevanchaResultSchema instance on the
+    first iteration and a BalotoResultSchema instance afterward, allowing the
+    same tests to validate both schemas.
+    """
 
     def _factory(
         gid: int, dte: date | str, n1: int, n2: int, n3: int, n4: int, n5: int, ba: int, acc: int | None = None
@@ -40,6 +46,7 @@ def baloto_revancha_factory(request: FixtureRequest) -> Callable[..., BalotoResu
 
 @pytest.fixture(name="m_factory", scope="module")
 def miloto_factory() -> Callable[..., MilotoResultSchema]:
+    """Create a Callable[..., MilotoResultSchema] fixture so a test can parameterize the factory."""
 
     def _factory(
         gid: int,
@@ -64,8 +71,3 @@ def miloto_factory() -> Callable[..., MilotoResultSchema]:
         return MilotoResultSchema(**schema)
 
     return _factory
-
-
-@pytest.fixture(scope="module")
-def valid_hit_details() -> ResultDetailsSchema:
-    return ResultDetailsSchema(prize_for_winner=50_000, winners=10)

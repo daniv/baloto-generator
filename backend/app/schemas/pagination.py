@@ -1,13 +1,9 @@
 """Generic pagination envelope for paginated list endpoints."""
 
-from typing import Generic, TypeVar
-
 from pydantic import BaseModel
 
-T = TypeVar("T")
 
-
-class PaginatedResponse(BaseModel, Generic[T]):
+class PaginatedResponse[T](BaseModel):
     """
     A generic paginated response envelope.
 

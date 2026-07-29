@@ -1,3 +1,5 @@
+"""Define and validate application, database, and lottery configuration settings."""
+
 import calendar
 from datetime import date
 from typing import Annotated, Self
@@ -9,7 +11,6 @@ from pydantic import (
     HttpUrl,
     PostgresDsn,
     SecretStr,
-    ValidationError,
     computed_field,
     model_validator,
 )
@@ -62,7 +63,7 @@ class BalotoModel(BaseModel):
 
 class DatabaseSettings(BaseSettings):
     model_config = SettingsConfigDict(
-        validate_default=True, case_sensitive=False, env_file=".env", env_file_encoding="utf-8"
+        validate_default=True, case_sensitive=False, env_file="../.env", env_file_encoding="utf-8"
     )
 
     db_user: str = "postgres"
@@ -88,14 +89,16 @@ class DatabaseSettings(BaseSettings):
     @model_validator(mode="after")
     def verify_db_password_is_changed(self) -> Self:
         if self.db_password.get_secret_value() == "CHANGE_ME":
-            raise ValueError("Security Alert: You must override the default DB password!")
+            err_msg = "Security Alert: You must override the default DB password!"
+            raise ValueError(err_msg)
         return self
 
 
 class ApplicationSettings(BaseSettings):
     title: str = "Generador Baloto"
     version: str = "0.1.0"
-    description = "API for lottery combination generation and historical statistics"
+    description: str = "API for lottery combination generation and historical statistics"
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(validate_default=True)
@@ -107,12 +110,7 @@ class Settings(BaseSettings):
     app_settings: ApplicationSettings = Field(default_factory=ApplicationSettings)
 
     app_name: str = "Awesome API"
-    # admin_email: str
     items_per_user: int = 50
 
 
-try:
-    settings = Settings()
-except ValidationError as e:
-    print(e)
-    raise e from e
+settings = Settings()

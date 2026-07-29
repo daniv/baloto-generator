@@ -1,14 +1,15 @@
 from abc import ABC, abstractmethod
 from typing import Annotated, Self
 
-from backend.app.config.app_settings import settings
-from backend.app.schemas.base import AccumulatedField, BalotoMilotoBaseShema, ResultDetailsSchema
-from backend.app.utils.math_utils import numbers_to_hex
 from pydantic import (
     Field,
     PrivateAttr,
     model_validator,
 )
+
+from app.config.app_settings import settings
+from app.schemas.base import AccumulatedField, BalotoMilotoBaseShema, ResultDetailsSchema
+from app.utils.math_utils import numbers_to_hex
 
 
 class _SharedBalotoRevanchaResultSchema(BalotoMilotoBaseShema, ABC):
@@ -67,7 +68,7 @@ class _SharedBalotoRevanchaResultSchema(BalotoMilotoBaseShema, ABC):
         return self
 
     def calculate_combination_id(self) -> str:
-        """Claculates the hexa represenation of the winning combination"""
+        """Claculates the hexa represenation of the winning combination."""
         combination_hex = numbers_to_hex(
             (self.num_1, self.num_2, self.num_3, self.num_4, self.num_5), settings.baloto_settings.baloto_max_num
         )

@@ -10,16 +10,16 @@ import asyncio
 from typing import TYPE_CHECKING, Any
 
 import pytest
-from backend.app.models import Base
+from app.models import Base
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
 from sqlalchemy.pool import NullPool
 from testcontainers.community.postgres import PostgresContainer
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Awaitable, Generator
 
 
-def run_async(coroutine: Any) -> Any:
+def run_async[T](awaitable: Awaitable[T]) -> T:
     """
     Run an async coroutine from synchronous test code.
 
@@ -31,7 +31,11 @@ def run_async(coroutine: Any) -> Any:
     :param coroutine: The coroutine object to execute.
     :return: The value returned by the coroutine.
     """
-    return asyncio.run(coroutine)
+
+    async def execute() -> T:
+        return await awaitable
+
+    return asyncio.run(execute())
 
 
 @pytest.fixture(scope="session")
@@ -72,7 +76,7 @@ def db_engine(postgres_container: PostgresContainer) -> Generator[AsyncEngine]:
     run_async(engine.dispose())
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture
 def db_session(db_engine: AsyncEngine) -> Generator[AsyncSession]:
     """
     Provide a database session isolated to a single test.

@@ -9,10 +9,10 @@ autogenerate to detect all tables.
 Add a new import line here every time a new model module is created.
 """
 
-from backend.app.models.baloto_db import BalotoResult
-from backend.app.models.base import Base
-from backend.app.models.miloto_db import MilotoResult
-from backend.app.models.revancha_db import RevanchaResult
+from app.models.baloto_db import BalotoResult
+from app.models.base import Base
+from app.models.miloto_db import MilotoResult
+from app.models.revancha_db import RevanchaResult
 
 __all__ = [
     "BalotoResult",

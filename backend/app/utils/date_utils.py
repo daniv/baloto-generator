@@ -5,6 +5,7 @@ from babel.dates import format_date
 if TYPE_CHECKING:
     import datetime
 
+
 def abbreviated_date(dte: datetime.date) -> str:
     """
     Format a date as an abbreviated Spanish string (`dd-MMM-yyyy`).

@@ -34,6 +34,4 @@ def numbers_to_hex(numbers: tuple[int, int, int, int, int], size: int) -> str:
     bool_array[numbers[4] - 1] = True
 
     binary_string = "".join("1" if value else "0" for value in bool_array)
-    hex_value = format(int(binary_string, 2), "X")
-
-    return hex_value
+    return format(int(binary_string, 2), "X")

@@ -8,8 +8,9 @@ request-scoped :class:`AsyncSession`.
 
 from typing import TYPE_CHECKING
 
-from backend.app.config.app_settings import settings
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+
+from app.config.app_settings import settings
 
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator

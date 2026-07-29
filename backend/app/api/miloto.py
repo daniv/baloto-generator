@@ -3,11 +3,12 @@
 import math
 from typing import TYPE_CHECKING, Annotated
 
-from backend.app.crud.miloto import get_miloto_result_by_game_id, get_miloto_results_page
-from backend.app.db.session import get_db
-from backend.app.schemas.miloto import MilotoResultSchema
-from backend.app.schemas.pagination import PaginatedResponse
 from fastapi import APIRouter, Depends, HTTPException, Query
+
+from app.crud.miloto import get_miloto_result_by_game_id, get_miloto_results_page
+from app.db.session import get_db
+from app.schemas.miloto import MilotoResultSchema
+from app.schemas.pagination import PaginatedResponse
 
 if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession

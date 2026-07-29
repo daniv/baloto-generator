@@ -1,10 +1,11 @@
 from typing import Annotated, Self
 
-from backend.app.config.app_settings import settings
-from backend.app.schemas.base import AccumulatedField, BalotoMilotoBaseShema, ResultDetailsSchema
-from backend.app.utils.date_utils import full_date
-from backend.app.utils.math_utils import numbers_to_hex
 from pydantic import ConfigDict, Field, computed_field, model_validator
+
+from app.config.app_settings import settings
+from app.schemas.base import AccumulatedField, BalotoMilotoBaseShema, ResultDetailsSchema
+from app.utils.date_utils import full_date
+from app.utils.math_utils import numbers_to_hex
 
 
 class MilotoResultSchema(BalotoMilotoBaseShema):

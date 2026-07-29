@@ -2,10 +2,12 @@
 
 from fastapi import FastAPI
 
-from backend.app.api.miloto import router as miloto_router
-from backend.app.config.app_settings import settings
+from app.api.miloto import router as miloto_router
+from app.config.app_settings import settings
+
 
 def create_app() -> FastAPI:
+    """Create the main entrypoint to use FastAPI."""
     app = FastAPI(
         title=settings.app_settings.title,
         version=settings.app_settings.version,
@@ -17,6 +19,3 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
-
-
-

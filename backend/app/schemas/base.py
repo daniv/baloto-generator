@@ -1,6 +1,6 @@
 import datetime
 from abc import ABC, abstractmethod
-from typing import Annotated, Any
+from typing import Annotated
 
 import dateparser
 from pydantic import BaseModel, ConfigDict, Field, PositiveInt, computed_field, field_validator
@@ -34,24 +34,28 @@ class BalotoMilotoBaseShema(BaseModel, ABC):
 
     @field_validator("game_date", mode="before")
     @classmethod
-    def parse_spanish_date(cls, value: Any) -> datetime.date:
+    def parse_spanish_date(cls, value: object) -> datetime.date:
         if isinstance(value, datetime.date):
             return value
         if not isinstance(value, str):
-            raise TypeError("game_date must be a Spanish date string or datetime.date")
+            err_msg = "game_date must be a Spanish date string or datetime.date"
+            raise TypeError(err_msg)
 
         parsed = dateparser.parse(value, languages=["es"], settings={"DATE_ORDER": "DMY", "STRICT_PARSING": True})
 
         if parsed is None:
-            raise ValueError(f"Invalid Spanish date: {value!r}. Expected a value such as '7 de Julio de 2026'.")
+            err_msg = f"Invalid Spanish date: {value!r}. Expected a value such as '7 de Julio de 2026'."
+            raise ValueError(err_msg)
 
         return parsed.date()
 
     def _validate_ascending(self, numbers: list[int]) -> None:
         if numbers != sorted(numbers):
-            raise ValueError("Winning numbers must be in ascending order")
+            err_msg = "Winning numbers must be in ascending order"
+            raise ValueError(err_msg)
         if len(numbers) != len(set(numbers)):
-            raise ValueError("All winning numbers must be unique")
+            err_message = "All winning numbers must be unique"
+            raise ValueError(err_message)
 
     @abstractmethod
     def calculate_combination_id(self) -> str:

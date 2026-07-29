@@ -8,14 +8,13 @@ the responsibility of the router layer.
 
 from typing import TYPE_CHECKING
 
-
-from backend.app.models.miloto_db import MilotoResult
 from sqlalchemy import func, select
 
+from app.models.miloto_db import MilotoResult
 
 if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
-    
+
 
 async def get_miloto_results_page(db: AsyncSession, page: int, size: int) -> tuple[list[MilotoResult], int]:
     """

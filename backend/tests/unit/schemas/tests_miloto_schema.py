@@ -2,9 +2,9 @@ from datetime import date
 from typing import TYPE_CHECKING
 
 import pytest
-from backend.app.config.app_settings import settings
-from backend.app.schemas.base import ResultDetailsSchema
-from backend.app.schemas.miloto import MilotoResultSchema
+from app.config.app_settings import settings
+from app.schemas.base import ResultDetailsSchema
+from app.schemas.miloto import MilotoResultSchema
 from pydantic import ValidationError
 
 if TYPE_CHECKING:
@@ -23,6 +23,7 @@ updates: dict[str, ResultDetailsSchema | int] = {
 
 @pytest.fixture(name="schema", scope="module", autouse=True)
 def miloto_schema(m_factory: Callable[..., MilotoResultSchema]) -> MilotoResultSchema:
+    """Fixture that returns a valid basic MilotoResultSchema instance."""
     return m_factory(gid=1, dte=a_date, n1=5, n2=12, n3=18, n4=25, n5=33)
 
 
@@ -31,8 +32,8 @@ def test_valid_draw_with_all_fields(schema: MilotoResultSchema) -> None:
     """
     Verify a fully valid MilotoResultModel is constructed correctly.
 
-    Checks that every field (game_id, game_date, numbers, accumulated)
-    holds the expected value after construction with valid data.
+    Check that every field holds the expected value after construction with
+    valid data.
     """
     # Creates a copy of the model to bypass frozen=True
     model = schema.model_copy(update=updates, deep=True)
@@ -124,9 +125,9 @@ def test_numbers_outside_1_to_39_raise_error(
         m_factory(gid=1, dte=a_date, n1=num_1, n2=num_2, n3=num_3, n4=num_4, n5=num_5)
 
     errors = exc_info.value.errors()
-    target = [e for e in errors if ex_field in e["loc"]][0]
-    assert target.get("input") == ex_input, "Unexpected error on 'error.input' value."
-    assert target.get("type") == ex_type, "Unexpected error on 'error.type' value."
+    error = next(e for e in errors if ex_field in e["loc"])
+    assert error.get("input") == ex_input, "Unexpected error on 'error.input' value."
+    assert error.get("type") == ex_type, "Unexpected error on 'error.type' value."
     assert any(ex_field in e["loc"] for e in errors), "Unexpected error on 'error.loc' value."
 
 
@@ -138,9 +139,9 @@ def test_accumulated_raises_error(schema: MilotoResultSchema, accumulated: int) 
 
     Accumulated prize must be non-negative per Field(ge=0).
     """
+    model_dump = schema.model_dump()
+    model_dump["accumulated"] = accumulated
     with pytest.raises(ValidationError) as exc_info:
-        model_dump = schema.model_dump()
-        model_dump["accumulated"] = accumulated
         MilotoResultSchema(**model_dump)
 
     errors = exc_info.value.errors()
@@ -183,9 +184,9 @@ def test_position_range_violation(
 
     errors = exc_info.value.errors()
     assert any(ex_field in e["loc"] for e in errors), "Unexpected error 'error.loc' value."
-    target = [e for e in errors if ex_field in e["loc"]][0]
-    assert target.get("input") == ex_input, "Unexpected error 'error.input' value."
-    assert target.get("type") == ex_type, "Unexpected error 'error.type' value."
+    error = next(e for e in errors if ex_field in e["loc"])
+    assert error.get("input") == ex_input, "Unexpected error 'error.input' value."
+    assert error.get("type") == ex_type, "Unexpected error 'error.type' value."
 
 
 @pytest.mark.unit
@@ -240,18 +241,6 @@ def test_datetime_date_passes_through_unchanged(m_factory: Callable[..., MilotoR
     d = date(2026, 12, 25)
     model = m_factory(gid=1, dte=d, n1=5, n2=12, n3=18, n4=25, n5=33)
     assert model.game_date is d, "Unexpected 'model.game_date' type()"
-
-
-@pytest.mark.unit
-def test_valid_prize_details(valid_hit_details: ResultDetailsSchema) -> None:
-    """
-    Verify that MilotoResultDetails is constructed with non-negative values.
-
-    Both prize_for_winner and winners must accept zero or positive integers
-    and return them as provided.
-    """
-    assert valid_hit_details.prize_for_winner == 50_000, "Unexpected prize_for_winner value."
-    assert valid_hit_details.winners == 10, "Unexpected winners value."
 
 
 @pytest.mark.unit

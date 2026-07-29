@@ -30,7 +30,7 @@ python_functions = [
     "test_*",
 ]
 testpaths = [
-    "backend/tests",
+    "tests",
 ]
 strict = true
 markers = [
@@ -52,6 +52,66 @@ pythonpath = [
 # https://github.com/pytest-dev/pytest-env
 # uv run pytest --pytest-env-verbose
 # uv run pytest --envfile .env.test  
-env_files = [".env", ".env.test"]
+env_files = ["../.env", "../.env.test"]
 FORCE_COLOR = "1"
 env_files_skip_if_set = true
+
+
+[tool.ruff]
+target-version = "py314"
+line-length = 120
+src = ["app", "tests"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "COM812", # Conflicts with the Ruff formatter.
+    "D203",   # Use D211: no blank line before a class docstring.
+    "D212",   # Use D213: multiline summary starts on the second line.
+    "ISC001", # Conflicts with the Ruff formatter.
+    "CPY001", # Do not require a copyright notice in every Python file.
+    "D104", # Do not require docstrings in empty package initializer files.
+    "D400", # D415 already enforces terminal punctuation more broadly.
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**/*.py" = [
+    "ARG001",  # Allow unused function arguments injected as pytest fixtures.
+    "ARG002",  # Allow unused method arguments used by test classes or fixtures.
+    "FBT001",  # Allow Boolean positional arguments in test helpers and parametrized tests.
+    "FBT002",  # Allow Boolean positional default values in test helper functions.
+    "PLR0913", # Allow test functions to receive multiple fixtures and parametrized values.
+    "PLR0917", # Allow multiple positional fixtures and parametrized arguments.
+    "PLR2004", # Allow literal values directly inside test assertions.
+    "S101",    # Allow assert statements, which are standard in pytest tests.
+    "SLF001",  # Allow tests to access private members when validating internal behavior.
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+docstring-code-format = true
+docstring-code-line-length = 120
+
+[tool.pyright]
+include = ["app", "tests"]
+pythonVersion = "3.14"
+typeCheckingMode = "strict"
+reportMissingTypeStubs = false
+
+[tool.poe.tasks]
+test = { cmd = "pytest", help = "Run the complete backend test suite." }
+testcov = { cmd = "pytest --cov=app --cov-report=term-missing --cov-report=html", help = "Run tests and generate terminal and HTML coverage reports." }
+
+lint = { cmd = "ruff check app tests --ignore D100,D101,D102", help = "Lint application and test code, excluding deferred documentation checks." }
+lint-fix = { cmd = "ruff check app tests --ignore D100,D101,D102 --fix", help = "Apply safe Ruff fixes, excluding deferred documentation checks." }
+lint-docs = { cmd = "ruff check app tests --select D100,D101,D102", help = "Check deferred module, class, and method documentation." }
+
+format = { cmd = "ruff format app tests", help = "Format application and test code." }
+format-check = { cmd = "ruff format --check app tests", help = "Verify formatting without modifying files." }
+
+typecheck = { cmd = "pyright", help = "Run strict static type checking." }
+
+check = { sequence = ["format-check", "lint", "typecheck", "test"], help = "Run the required backend quality checks." }
+check-all = { sequence = ["format-check", "lint", "lint-docs", "typecheck", "test"], help = "Run all checks, including documentation." }
