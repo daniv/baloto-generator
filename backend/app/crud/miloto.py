@@ -1,18 +1,25 @@
-"""CRUD operations for Miloto results.
+"""
+CRUD operations for Miloto results.
 
 Read-only data access functions for the ``miloto_results`` table. These
 functions return ORM objects; converting them to API response schemas is
 the responsibility of the router layer.
 """
 
-from sqlalchemy import func, select
-from sqlalchemy.ext.asyncio import AsyncSession
+from typing import TYPE_CHECKING
+
 
 from backend.app.models.miloto_db import MilotoResult
+from sqlalchemy import func, select
 
+
+if TYPE_CHECKING:
+    from sqlalchemy.ext.asyncio import AsyncSession
+    
 
 async def get_miloto_results_page(db: AsyncSession, page: int, size: int) -> tuple[list[MilotoResult], int]:
-    """Fetch one page of Miloto results, most recent draw first.
+    """
+    Fetch one page of Miloto results, most recent draw first.
 
     :param db: The active database session.
     :param page: The 1-indexed page number to fetch.
@@ -31,7 +38,8 @@ async def get_miloto_results_page(db: AsyncSession, page: int, size: int) -> tup
 
 
 async def get_miloto_result_by_game_id(db: AsyncSession, game_id: int) -> MilotoResult | None:
-    """Fetch a single Miloto result by its game id.
+    """
+    Fetch a single Miloto result by its game id.
 
     :param db: The active database session.
     :param game_id: The game id (draw number) to look up.

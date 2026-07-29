@@ -1,10 +1,13 @@
-import datetime
+from typing import TYPE_CHECKING
 
 from babel.dates import format_date
 
+if TYPE_CHECKING:
+    import datetime
 
 def abbreviated_date(dte: datetime.date) -> str:
-    """Format a date as an abbreviated Spanish string (`dd-MMM-yyyy`).
+    """
+    Format a date as an abbreviated Spanish string (`dd-MMM-yyyy`).
 
     Produces a compact date representation suitable for table columns or
     filenames.  The month is shown as a three-letter Spanish abbreviation.
@@ -18,7 +21,8 @@ def abbreviated_date(dte: datetime.date) -> str:
 
 
 def long_date(dte: datetime.date) -> str:
-    """Format a date as a long Spanish string (`d 'de' MMMM 'de' y`).
+    """
+    Format a date as a long Spanish string (`d 'de' MMMM 'de' y`).
 
     Produces a human-friendly date representation with the full month name.
     The result is title-cased and articles are lower-cased for readability.
@@ -33,7 +37,8 @@ def long_date(dte: datetime.date) -> str:
 
 
 def full_date(dte: datetime.date) -> str:
-    """Format a date as a full Spanish string (`EEEE, dd 'de' MMMM 'de' y`).
+    """
+    Format a date as a full Spanish string (`EEEE, dd 'de' MMMM 'de' y`).
 
     Produces the most verbose date representation including the weekday name.
     The result is title-cased and articles are lower-cased for readability.

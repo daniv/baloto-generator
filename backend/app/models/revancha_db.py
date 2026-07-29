@@ -1,12 +1,13 @@
-from datetime import datetime
+from typing import TYPE_CHECKING
 from typing import Any
 
+from backend.app.models.base import Base
 from sqlalchemy import BigInteger, CheckConstraint, Date, Integer, UniqueConstraint, func
 from sqlalchemy.dialects.postgresql import JSONB, TIMESTAMP
 from sqlalchemy.orm import Mapped, mapped_column
 
-from backend.app.models.base import Base
-
+if TYPE_CHECKING:
+    from datetime import datetime
 
 class RevanchaResult(Base):
     __tablename__ = "revancha_results"

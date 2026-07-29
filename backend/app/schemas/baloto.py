@@ -1,25 +1,19 @@
-from typing import Annotated, Self
 from abc import ABC, abstractmethod
+from typing import Annotated, Self
 
+from backend.app.config.app_settings import settings
+from backend.app.schemas.base import AccumulatedField, BalotoMilotoBaseShema, ResultDetailsSchema
+from backend.app.utils.math_utils import numbers_to_hex
 from pydantic import (
     Field,
     PrivateAttr,
-    field_validator,
     model_validator,
 )
 
-from backend.app.schemas.base import (
-    AccumulatedField, 
-    BalotoMilotoBaseShema, 
-    ResultDetailsSchema
-)
-
-from backend.app.config.app_settings import settings
-from backend.app.utils.math_utils import numbers_to_hex
-
 
 class _SharedBalotoRevanchaResultSchema(BalotoMilotoBaseShema, ABC):
-    """Fields shared by Baloto and Revancha results, with no write-time validators.
+    """
+    Fields shared by Baloto and Revancha results, with no write-time validators.
 
     Used directly for reading stored results (API responses), where
     validators tied to current settings — such as the minimum jackpot —
@@ -64,11 +58,10 @@ class _SharedBalotoRevanchaResultSchema(BalotoMilotoBaseShema, ABC):
     @abstractmethod
     def type(self) -> str:
         """Abstract property that every subclass must implement."""
-        pass
 
     @model_validator(mode="after")
     def check_ascending(self) -> Self:
-        """Validates that num_1 to num_5 are ordered"""
+        """Validate that num_1 through num_5 are ordered."""
         numbers = [self.num_1, self.num_2, self.num_3, self.num_4, self.num_5]
         self._validate_ascending(numbers)
         return self
@@ -76,7 +69,7 @@ class _SharedBalotoRevanchaResultSchema(BalotoMilotoBaseShema, ABC):
     def calculate_combination_id(self) -> str:
         """Claculates the hexa represenation of the winning combination"""
         combination_hex = numbers_to_hex(
-            self.num_1, self.num_2, self.num_3, self.num_4, self.num_5, settings.baloto_settings.baloto_max_num
+            (self.num_1, self.num_2, self.num_3, self.num_4, self.num_5), settings.baloto_settings.baloto_max_num
         )
         balota_hex = f"{self.balota:X}"
         return f"{combination_hex}:{balota_hex}"

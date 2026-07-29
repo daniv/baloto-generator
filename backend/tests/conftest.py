@@ -1,4 +1,5 @@
-"""Shared pytest fixtures for database-backed tests.
+"""
+Shared pytest fixtures for database-backed tests.
 
 Provides a real, disposable PostgreSQL instance via Testcontainers, an
 async SQLAlchemy engine bound to it, and a per-test isolated session
@@ -6,19 +7,21 @@ that rolls back after each test so no test leaks data into the next one.
 """
 
 import asyncio
-from collections.abc import Generator
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import pytest
+from backend.app.models import Base
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, create_async_engine
 from sqlalchemy.pool import NullPool
 from testcontainers.community.postgres import PostgresContainer
 
-from backend.app.models import Base
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 
 def run_async(coroutine: Any) -> Any:
-    """Run an async coroutine from synchronous test code.
+    """
+    Run an async coroutine from synchronous test code.
 
     Each call executes the coroutine in a brand-new event loop via
     :func:`asyncio.run`. The async engine used alongside this helper must
@@ -32,8 +35,9 @@ def run_async(coroutine: Any) -> Any:
 
 
 @pytest.fixture(scope="session")
-def postgres_container() -> Generator[PostgresContainer, None, None]:
-    """Start a disposable PostgreSQL container for the whole test session.
+def postgres_container() -> Generator[PostgresContainer]:
+    """
+    Start a disposable PostgreSQL container for the whole test session.
 
     :return: A running :class:`PostgresContainer`, torn down automatically
         once every test in the session has finished.
@@ -43,8 +47,9 @@ def postgres_container() -> Generator[PostgresContainer, None, None]:
 
 
 @pytest.fixture(scope="session")
-def db_engine(postgres_container: PostgresContainer) -> Generator[AsyncEngine, None, None]:
-    """Create the async engine used by tests and create all tables on it.
+def db_engine(postgres_container: PostgresContainer) -> Generator[AsyncEngine]:
+    """
+    Create the async engine used by tests and create all tables on it.
 
     ``NullPool`` is required here: fixtures bridge async code into sync
     pytest fixtures by opening a new event loop per call (see
@@ -68,8 +73,9 @@ def db_engine(postgres_container: PostgresContainer) -> Generator[AsyncEngine, N
 
 
 @pytest.fixture(scope="function")
-def db_session(db_engine: AsyncEngine) -> Generator[AsyncSession, None, None]:
-    """Provide a database session isolated to a single test.
+def db_session(db_engine: AsyncEngine) -> Generator[AsyncSession]:
+    """
+    Provide a database session isolated to a single test.
 
     Opens a connection and an outer transaction before the test runs, and
     binds an :class:`AsyncSession` to that connection using

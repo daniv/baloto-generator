@@ -1,12 +1,11 @@
 from datetime import date
-
 from typing import TYPE_CHECKING
-import pytest
-from pydantic import ValidationError
 
+import pytest
+from backend.app.config.app_settings import settings
 from backend.app.schemas.base import ResultDetailsSchema
 from backend.app.schemas.miloto import MilotoResultSchema
-from backend.app.config.app_settings import settings
+from pydantic import ValidationError
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -21,18 +20,20 @@ updates: dict[str, ResultDetailsSchema | int] = {
     "hits_5": ResultDetailsSchema(prize_for_winner=10_000_000, winners=2),
 }
 
+
 @pytest.fixture(name="schema", scope="module", autouse=True)
 def miloto_schema(m_factory: Callable[..., MilotoResultSchema]) -> MilotoResultSchema:
     return m_factory(gid=1, dte=a_date, n1=5, n2=12, n3=18, n4=25, n5=33)
 
+
 @pytest.mark.unit
 def test_valid_draw_with_all_fields(schema: MilotoResultSchema) -> None:
-    """Verify a fully valid MilotoResultModel is constructed correctly.
+    """
+    Verify a fully valid MilotoResultModel is constructed correctly.
 
     Checks that every field (game_id, game_date, numbers, accumulated)
     holds the expected value after construction with valid data.
     """
-
     # Creates a copy of the model to bypass frozen=True
     model = schema.model_copy(update=updates, deep=True)
 
@@ -47,6 +48,7 @@ def test_valid_draw_with_all_fields(schema: MilotoResultSchema) -> None:
     assert model.hits_3.prize_for_winner == 30_000, "Unxpected 'hits_3.prize_for_winner' value."
     assert model.hits_2.winners == 50, "Unexpected 'hits_2.winners' value."
 
+
 @pytest.mark.unit
 @pytest.mark.parametrize(
     ("num_1", "num_2", "num_3", "num_4", "num_5"),
@@ -57,8 +59,11 @@ def test_valid_draw_with_all_fields(schema: MilotoResultSchema) -> None:
         pytest.param(5, 12, 18, 25, 25, id="num_4_equals_num_5"),
     ],
 )
-def test_duplicate_numbers_raise_error(m_factory: Callable[..., MilotoResultSchema], num_1: int, num_2: int, num_3: int, num_4: int, num_5: int) -> None:
-    """Verify that any pair of duplicate winning numbers raises ValueError.
+def test_duplicate_numbers_raise_error(
+    m_factory: Callable[..., MilotoResultSchema], num_1: int, num_2: int, num_3: int, num_4: int, num_5: int
+) -> None:
+    """
+    Verify that any pair of duplicate winning numbers raises ValueError.
 
     Checks all adjacent-position duplicate scenarios (n1=n2, n2=n3, n3=n4, n4=n5).
     The model validator must reject these before construction completes.
@@ -76,8 +81,11 @@ def test_duplicate_numbers_raise_error(m_factory: Callable[..., MilotoResultSche
         pytest.param(5, 12, 18, 25, 20, id="num_5_less_than_num_4"),
     ],
 )
-def test_non_ascending_numbers_raise_error(m_factory: Callable[..., MilotoResultSchema], num_1: int, num_2: int, num_3: int, num_4: int, num_5: int) -> None:
-    """Verify that non-ascending number sequences raise ValueError.
+def test_non_ascending_numbers_raise_error(
+    m_factory: Callable[..., MilotoResultSchema], num_1: int, num_2: int, num_3: int, num_4: int, num_5: int
+) -> None:
+    """
+    Verify that non-ascending number sequences raise ValueError.
 
     Tests out-of-order positions while keeping every number within its
     individual range constraint, isolating the ascending-order validator.
@@ -96,9 +104,18 @@ def test_non_ascending_numbers_raise_error(m_factory: Callable[..., MilotoResult
     ],
 )
 def test_numbers_outside_1_to_39_raise_error(
-    m_factory: Callable[..., MilotoResultSchema], num_1: int, num_2: int, num_3: int, num_4: int, num_5: int, ex_field: str, ex_input: int, ex_type: str
+    m_factory: Callable[..., MilotoResultSchema],
+    num_1: int,
+    num_2: int,
+    num_3: int,
+    num_4: int,
+    num_5: int,
+    ex_field: str,
+    ex_input: int,
+    ex_type: str,
 ) -> None:
-    """Verify that numbers outside the 1-39 range raise ValidationError.
+    """
+    Verify that numbers outside the 1-39 range raise ValidationError.
 
     Covers low boundary (0), high boundary (40), and all-out-of-range (50-54).
     ValidationError comes from Pydantic's Field(ge=1, le=39) constraints.
@@ -114,13 +131,10 @@ def test_numbers_outside_1_to_39_raise_error(
 
 
 @pytest.mark.unit
-@pytest.mark.parametrize("accumulated", [
-        pytest.param(-1, id="negative"), 
-        pytest.param(0, id="below_minimum")
-    ]
-)
+@pytest.mark.parametrize("accumulated", [pytest.param(-1, id="negative"), pytest.param(0, id="below_minimum")])
 def test_accumulated_raises_error(schema: MilotoResultSchema, accumulated: int) -> None:
-    """Verify that negative accumulated raises ValidationError.
+    """
+    Verify that negative accumulated raises ValidationError.
 
     Accumulated prize must be non-negative per Field(ge=0).
     """
@@ -136,6 +150,7 @@ def test_accumulated_raises_error(schema: MilotoResultSchema, accumulated: int) 
     assert error.get("type") == "greater_than", "Unexpected 'error.type' value."
     assert any("accumulated" in e["loc"] for e in errors), "Expected error on 'accumulated' field."
 
+
 @pytest.mark.unit
 @pytest.mark.parametrize(
     ("num_1", "num_2", "num_3", "num_4", "num_5", "ex_field", "ex_input", "ex_type"),
@@ -146,9 +161,18 @@ def test_accumulated_raises_error(schema: MilotoResultSchema, accumulated: int) 
     ],
 )
 def test_position_range_violation(
-    m_factory: Callable[..., MilotoResultSchema], num_1: int, num_2: int, num_3: int, num_4: int, num_5: int, ex_field: str, ex_input: int, ex_type: str
+    m_factory: Callable[..., MilotoResultSchema],
+    num_1: int,
+    num_2: int,
+    num_3: int,
+    num_4: int,
+    num_5: int,
+    ex_field: str,
+    ex_input: int,
+    ex_type: str,
 ) -> None:
-    """Verify per-position range constraints (num_1 âˆˆ [1,35], num_5 âˆˆ [5,39], etc.).
+    """
+    Verify per-position range constraints (num_1 âˆˆ [1,35], num_5 âˆˆ [5,39], etc.).
 
     Each position has a tighter range than 1-39 to ensure ascending order is
     possible. num_1 maxes at 35 and num_5 starts at 5. Tests boundary violations
@@ -175,7 +199,8 @@ def test_position_range_violation(
 def test_spanish_date_string_parsed_correctly(
     m_factory: Callable[..., MilotoResultSchema], raw_date: str, expected: date
 ) -> None:
-    """Verify that Spanish date strings are parsed into the correct date.
+    """
+    Verify that Spanish date strings are parsed into the correct date.
 
     Tests full format ('7 de Julio de 2026') and abbreviated format ('25-Dic-2025')
     to cover the two common formats returned by the Playwright scraper.
@@ -194,7 +219,8 @@ def test_spanish_date_string_parsed_correctly(
     ],
 )
 def test_invalid_date_string_raises_error(m_factory: Callable[..., MilotoResultSchema], raw_date: str) -> None:
-    """Verify that unparseable strings raise ValueError with a Spanish-specific message.
+    """
+    Verify that unparseable strings raise ValueError with a Spanish-specific message.
 
     Covers random text and empty string. The error message must mention
     'Invalid Spanish date' so callers can distinguish parsing failures.
@@ -205,7 +231,8 @@ def test_invalid_date_string_raises_error(m_factory: Callable[..., MilotoResultS
 
 @pytest.mark.unit
 def test_datetime_date_passes_through_unchanged(m_factory: Callable[..., MilotoResultSchema]) -> None:
-    """Verify that a date object is returned as-is without parsing.
+    """
+    Verify that a date object is returned as-is without parsing.
 
     The validator must skip parsing when the input is already a date,
     not attempt to stringify or re-parse it.
@@ -217,7 +244,8 @@ def test_datetime_date_passes_through_unchanged(m_factory: Callable[..., MilotoR
 
 @pytest.mark.unit
 def test_valid_prize_details(valid_hit_details: ResultDetailsSchema) -> None:
-    """Verify that MilotoResultDetails is constructed with non-negative values.
+    """
+    Verify that MilotoResultDetails is constructed with non-negative values.
 
     Both prize_for_winner and winners must accept zero or positive integers
     and return them as provided.
@@ -228,7 +256,8 @@ def test_valid_prize_details(valid_hit_details: ResultDetailsSchema) -> None:
 
 @pytest.mark.unit
 def test_negative_prize_raises_error() -> None:
-    """Verify that negative prize_for_winner raises ValidationError.
+    """
+    Verify that negative prize_for_winner raises ValidationError.
 
     The prize per winner must be non-negative (Field(ge=0)). Negative values
     are economically impossible for a prize distribution.

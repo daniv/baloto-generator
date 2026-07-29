@@ -3,14 +3,7 @@ from abc import ABC, abstractmethod
 from typing import Annotated, Any
 
 import dateparser
-from pydantic import (
-    BaseModel, 
-    ConfigDict, 
-    Field, 
-    PositiveInt, 
-    computed_field, 
-    field_validator
-)
+from pydantic import BaseModel, ConfigDict, Field, PositiveInt, computed_field, field_validator
 
 type AccumulatedField = Annotated[
     PositiveInt,

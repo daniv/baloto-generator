@@ -1,16 +1,15 @@
-
 from datetime import date
 from typing import TYPE_CHECKING
 
 import pytest
 from backend.app.config.app_settings import settings
+from backend.app.schemas.baloto import BalotoResultSchema, RevanchaResultSchema
 from backend.app.schemas.base import ResultDetailsSchema
 from pydantic import ValidationError
-from backend.app.schemas.baloto import BalotoResultSchema
-from backend.app.schemas.baloto import RevanchaResultSchema
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
     type BalotoSchema = BalotoResultSchema | RevanchaResultSchema
 
 # region Helper data
@@ -34,18 +33,22 @@ updates: dict[str, ResultDetailsSchema | int] = {
 
 # region Module fixtures
 
+
 @pytest.fixture(name="schema", scope="module", autouse=False)
 def baloto_revancha_schema(br_factory: Callable[..., BalotoSchema]) -> BalotoSchema:
     return br_factory(gid=1, dte=a_date, n1=5, n2=12, n3=18, n4=25, n5=33, ba=7)
+
 
 # endregion
 
 
 # region Module Tests
 
+
 @pytest.mark.unit
 def test_valid_draw_with_all_fields(schema: BalotoSchema) -> None:
-    """Verify a fully valid BalotoResultModel is constructed correctly.
+    """
+    Verify a fully valid BalotoResultModel is constructed correctly.
 
     Checks every field holds the expected value, including optional
     hit details and the private _type attribute.
@@ -68,9 +71,11 @@ def test_valid_draw_with_all_fields(schema: BalotoSchema) -> None:
     assert model.hits_5_sb is not None, "Expected 'hits_5_sb' to be set."
     assert model.type == expected_type, f"Unexpected '_type' for {cls_name}."
 
+
 @pytest.mark.unit
 def test_valid_draw_minimal_fields(schema: BalotoSchema) -> None:
-    """Verify BalotoResultModel constructs with only required fields.
+    """
+    Verify BalotoResultModel constructs with only required fields.
 
     Omits all optional hit details to ensure defaults are None
     and accumulated defaults to 0.
@@ -96,16 +101,17 @@ def test_valid_draw_minimal_fields(schema: BalotoSchema) -> None:
         pytest.param(5, 12, 18, 25, 25, id="num_4_equals_num_5"),
     ],
 )
-def test_duplicate_numbers_raise_error(br_factory: Callable[..., BalotoSchema], num_1: int, num_2: int, num_3: int, num_4: int, num_5: int) -> None:
-    """Verify that any pair of duplicate winning numbers raises ValueError.
+def test_duplicate_numbers_raise_error(
+    br_factory: Callable[..., BalotoSchema], num_1: int, num_2: int, num_3: int, num_4: int, num_5: int
+) -> None:
+    """
+    Verify that any pair of duplicate winning numbers raises ValueError.
 
     Checks all adjacent-position duplicate scenarios. The model validator
     must reject these before construction completes.
     """
     with pytest.raises(ValueError, match="unique"):
-        br_factory(
-            gid=1, dte=a_date, n1=num_1, n2=num_2, n3=num_3, n4=num_4, n5=num_5, ba=7
-        )
+        br_factory(gid=1, dte=a_date, n1=num_1, n2=num_2, n3=num_3, n4=num_4, n5=num_5, ba=7)
 
 
 @pytest.mark.unit
@@ -117,8 +123,11 @@ def test_duplicate_numbers_raise_error(br_factory: Callable[..., BalotoSchema], 
         pytest.param(5, 12, 18, 25, 20, id="num_5_less_than_num_4"),
     ],
 )
-def test_non_ascending_numbers_raise_error(br_factory: Callable[..., BalotoSchema], num_1: int, num_2: int, num_3: int, num_4: int, num_5: int) -> None:
-    """Verify that non-ascending number sequences raise ValueError.
+def test_non_ascending_numbers_raise_error(
+    br_factory: Callable[..., BalotoSchema], num_1: int, num_2: int, num_3: int, num_4: int, num_5: int
+) -> None:
+    """
+    Verify that non-ascending number sequences raise ValueError.
 
     Tests out-of-order positions while keeping numbers within individual
     range constraints, isolating the ascending-order validator.
@@ -136,17 +145,24 @@ def test_non_ascending_numbers_raise_error(br_factory: Callable[..., BalotoSchem
     ],
 )
 def test_numbers_outside_range_raise_error(
-    br_factory: Callable[..., BalotoSchema], num_1: int, num_2: int, num_3: int, num_4: int, num_5: int, ex_field: str, ex_input: int, ex_type: str
+    br_factory: Callable[..., BalotoSchema],
+    num_1: int,
+    num_2: int,
+    num_3: int,
+    num_4: int,
+    num_5: int,
+    ex_field: str,
+    ex_input: int,
+    ex_type: str,
 ) -> None:
-    """Verify that numbers outside the 1-43 range raise ValidationError.
+    """
+    Verify that numbers outside the 1-43 range raise ValidationError.
 
     Baloto num_5 max is 43 (baloto_max_num). Covers low boundary (0)
     and high boundary (44).
     """
     with pytest.raises(ValidationError) as exc_info:
-        br_factory(
-            gid=1, dte=a_date, n1=num_1, n2=num_2, n3=num_3, n4=num_4, n5=num_5, ba=7
-        )
+        br_factory(gid=1, dte=a_date, n1=num_1, n2=num_2, n3=num_3, n4=num_4, n5=num_5, ba=7)
 
     errors = exc_info.value.errors()
     target = [e for e in errors if ex_field in e["loc"]][0]
@@ -156,13 +172,10 @@ def test_numbers_outside_range_raise_error(
 
 
 @pytest.mark.unit
-@pytest.mark.parametrize("balota", [
-        pytest.param(0, id="balota_below_1"), 
-        pytest.param(17, id="balota_above_16")
-    ]
-)
+@pytest.mark.parametrize("balota", [pytest.param(0, id="balota_below_1"), pytest.param(17, id="balota_above_16")])
 def test_balota_out_of_range_raises_error(br_factory: Callable[..., BalotoSchema], balota: int) -> None:
-    """Verify that balota outside 1-16 raises ValidationError.
+    """
+    Verify that balota outside 1-16 raises ValidationError.
 
     Balota has an independent range constraint (1-16) separate from
     the five main numbers.
@@ -175,13 +188,10 @@ def test_balota_out_of_range_raises_error(br_factory: Callable[..., BalotoSchema
 
 
 @pytest.mark.unit
-@pytest.mark.parametrize("accumulated", [
-        pytest.param(-1, id="negative"), 
-        pytest.param(0, id="below_minimum")
-    ]
-)
+@pytest.mark.parametrize("accumulated", [pytest.param(-1, id="negative"), pytest.param(0, id="below_minimum")])
 def test_accumulated_raises_error(schema: BalotoResultSchema, accumulated: int) -> None:
-    """Verify that negative accumulated raises ValidationError.
+    """
+    Verify that negative accumulated raises ValidationError.
 
     Accumulated prize must be non-negative per Field(ge=0).
     """
@@ -211,17 +221,23 @@ def test_accumulated_raises_error(schema: BalotoResultSchema, accumulated: int) 
 )
 def test_position_range_violation(
     br_factory: Callable[..., BalotoSchema],
-    num_1: int, num_2: int, num_3: int, num_4: int, num_5: int, ex_field: str, ex_input: int, ex_type: str
+    num_1: int,
+    num_2: int,
+    num_3: int,
+    num_4: int,
+    num_5: int,
+    ex_field: str,
+    ex_input: int,
+    ex_type: str,
 ) -> None:
-    """Verify per-position range constraints for Baloto.
+    """
+    Verify per-position range constraints for Baloto.
 
     Each position has a tighter range to ensure ascending order:
     num_1 in [1,39], num_2 in [2,40], num_3 in [3,41], num_4 in [4,42], num_5 in [5,43].
     """
     with pytest.raises(ValidationError) as exc_info:
-        br_factory(
-            gid=1, dte=a_date, n1=num_1, n2=num_2, n3=num_3, n4=num_4, n5=num_5, ba=7
-        )
+        br_factory(gid=1, dte=a_date, n1=num_1, n2=num_2, n3=num_3, n4=num_4, n5=num_5, ba=7)
 
     errors = exc_info.value.errors()
     assert any(ex_field in e["loc"] for e in errors), "Unexpected 'error.loc' value."
@@ -232,7 +248,8 @@ def test_position_range_violation(
 
 @pytest.mark.unit
 def test_has_correct_type(schema: BalotoSchema) -> None:
-    """Verify RevanchaResultModel has _type == 'R' and BalotoResultModel has _type "B".
+    """
+    Verify RevanchaResultModel has _type == 'R' and BalotoResultModel has _type "B".
 
     The only behavioral difference from BalotoResultModel is the
     private _type attribute. Field validation is inherited from
@@ -246,14 +263,15 @@ def test_has_correct_type(schema: BalotoSchema) -> None:
 
 @pytest.mark.unit
 def test_game_date_type_error_on_invalid_type(br_factory: Callable[..., BalotoSchema]) -> None:
-    """Verify TypeError raised when game_date is not str or date.
+    """
+    Verify TypeError raised when game_date is not str or date.
 
     Covers base.py line 31-32: the else branch of the type check
     in parse_spanish_date validator.
     """
     with pytest.raises(ValidationError) as exc_info:
         br_factory(gid=1, dte="012345", n1=5, n2=12, n3=18, n4=25, n5=33, ba=7)
-                
+
     assert exc_info.value.error_count() == 1, "Unxpected 'error_count' value"
     error = exc_info.value.errors()[0]
     assert error["type"] == "value_error", "Unexpected 'error.type' value"
@@ -264,5 +282,6 @@ def test_game_date_type_error_on_invalid_type(br_factory: Callable[..., BalotoSc
         model_dict = data.model_dump()
         model_dict["game_date"] = 12345
         BalotoResultSchema(**model_dict)
+
 
 # endregion

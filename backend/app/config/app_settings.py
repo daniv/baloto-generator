@@ -1,12 +1,19 @@
-
 import calendar
-from typing import Self
 from datetime import date
-from typing import Annotated
-from pydantic import BaseModel, ConfigDict, Field, ValidationError, computed_field
-from pydantic import model_validator
+from typing import Annotated, Self
+
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    HttpUrl,
+    PostgresDsn,
+    SecretStr,
+    ValidationError,
+    computed_field,
+    model_validator,
+)
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import PostgresDsn, SecretStr, HttpUrl
 from rich.console import Console
 
 
@@ -15,30 +22,47 @@ class BalotoModel(BaseModel):
 
     miloto_first_id: Annotated[int, Field(ge=1, description="The first miloto game id. default 1")] = 1
     miloto_first_date: Annotated[date, Field(description="The date for the first miloto game")] = date(2023, 10, 23)
-    miloto_min_jackpot:  Annotated[int, Field(description="The minimum miloto game jackpot prize. default $120M COP")] = 120_000_000  #  COP
-    miloto_weekdays: list[Annotated[int, Field(min_length=1, max_length=4)]] = [calendar.MONDAY, calendar.TUESDAY, calendar.THURSDAY, calendar.FRIDAY]
-    miloto_min_hits_prize: Annotated[int, Field(description="The miloto minimum prize (2 hits) default = $4K COP")] = 4_000
+    miloto_min_jackpot: Annotated[
+        int, Field(description="The minimum miloto game jackpot prize. default $120M COP")
+    ] = 120_000_000  #  COP
+    miloto_weekdays: list[Annotated[int, Field(min_length=1, max_length=4)]] = [
+        calendar.MONDAY,
+        calendar.TUESDAY,
+        calendar.THURSDAY,
+        calendar.FRIDAY,
+    ]
+    miloto_min_hits_prize: Annotated[int, Field(description="The miloto minimum prize (2 hits) default = $4K COP")] = (
+        4_000
+    )
     miloto_max_num: Annotated[int, Field(description="The miloto game max number. default = 39")] = 39
 
-    baloto_min_jackpot: Annotated[int, Field(description="The minimum baloto game jackpot prize. default $2000M COP")] = 2_000_000_000  #  COP
-    baloto_min_hits_prize: Annotated[int, Field(description="The baloto minimum prize (balota hit) default = $6K COP")] = 6_000
-    revancha_min_hits_prize: Annotated[int, Field(description="The miloto revancha prize (1 balota) default = $3K COP")] = 3000
+    baloto_min_jackpot: Annotated[
+        int, Field(description="The minimum baloto game jackpot prize. default $2000M COP")
+    ] = 2_000_000_000  #  COP
+    baloto_min_hits_prize: Annotated[
+        int, Field(description="The baloto minimum prize (balota hit) default = $6K COP")
+    ] = 6_000
+    revancha_min_hits_prize: Annotated[
+        int, Field(description="The miloto revancha prize (1 balota) default = $3K COP")
+    ] = 3000
     baloto_first_id: Annotated[int, Field(description="The first baloto game id. default 2082")] = 2082
     baloto_first_date: Annotated[date, Field(description="The date for the first baloto game")] = date(2021, 5, 5)
     baloto_max_num: Annotated[int, Field(description="The baloto-revanch game max number. default = 43")] = 43
     balota_max_num: Annotated[int, Field(description="The baloto-revanch balota max number. default = 16")] = 16
-    baloto_weekdays: list[Annotated[int, Field(min_length=1, max_length=4)]] =  [calendar.MONDAY, calendar.WEDNESDAY, calendar.SATURDAY]
+    baloto_weekdays: list[Annotated[int, Field(min_length=1, max_length=4)]] = [
+        calendar.MONDAY,
+        calendar.WEDNESDAY,
+        calendar.SATURDAY,
+    ]
 
     miloto_baseurl: HttpUrl = HttpUrl("https://www.baloto.com/miloto/resultados-miloto")
     baloto_baseurl: HttpUrl = HttpUrl("https://www.baloto.com/resultados-baloto")
     revancha_baseurl: HttpUrl = HttpUrl("https://www.baloto.com/resultados-revancha")
 
+
 class DatabaseSettings(BaseSettings):
     model_config = SettingsConfigDict(
-        validate_default=True,
-        case_sensitive=False,
-        env_file='.env', 
-        env_file_encoding='utf-8'
+        validate_default=True, case_sensitive=False, env_file=".env", env_file_encoding="utf-8"
     )
 
     db_user: str = "postgres"
@@ -51,9 +75,10 @@ class DatabaseSettings(BaseSettings):
     @computed_field
     @property
     def pg_dsn(self) -> PostgresDsn:
-        """The async database connection string used by the SQLAlchemy engine.
+        """
+        The async database connection string used by the SQLAlchemy engine.
 
-            :return: A validated Postgres DSN using the asyncpg driver.
+        :return: A validated Postgres DSN using the asyncpg driver.
         """
         secret_value = self.db_password.get_secret_value()
         return PostgresDsn(
@@ -65,6 +90,7 @@ class DatabaseSettings(BaseSettings):
         if self.db_password.get_secret_value() == "CHANGE_ME":
             raise ValueError("Security Alert: You must override the default DB password!")
         return self
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(validate_default=True)
@@ -80,7 +106,7 @@ class Settings(BaseSettings):
 
 
 try:
-  settings = Settings()
+    settings = Settings()
 except ValidationError as e:
-  print(e)
-  raise e from e
+    print(e)
+    raise e from e
