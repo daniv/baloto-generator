@@ -4,6 +4,14 @@ Shared pytest fixtures for database-backed tests.
 Provides a real, disposable PostgreSQL instance via Testcontainers, an
 async SQLAlchemy engine bound to it, and a per-test isolated session
 that rolls back after each test so no test leaks data into the next one.
+
+All async code in this file, in dependent conftest modules, and in test
+bodies themselves runs on a single, session-scoped event loop (see
+:func:`run_async`) instead of a fresh loop per call. An async database
+connection is bound to the event loop that was running when it was
+created and cannot be driven from a different one -- including from
+Starlette's ``TestClient``, which runs its own internal loop. Using one
+shared loop for everything in the test session avoids that entirely.
 """
 
 import asyncio
@@ -16,26 +24,36 @@ from sqlalchemy.pool import NullPool
 from testcontainers.community.postgres import PostgresContainer
 
 if TYPE_CHECKING:
-    from collections.abc import Awaitable, Generator
+    from collections.abc import Callable, Coroutine, Generator
+
+type RunAsync = Callable[[Coroutine[Any, Any, Any]], Any]
 
 
-def run_async[T](awaitable: Awaitable[T]) -> T:
+@pytest.fixture(scope="session")
+def event_loop() -> Generator[asyncio.AbstractEventLoop]:
     """
-    Run an async coroutine from synchronous test code.
+    Provide a single event loop shared by every fixture and test in the session.
 
-    Each call executes the coroutine in a brand-new event loop via
-    :func:`asyncio.run`. The async engine used alongside this helper must
-    be configured with ``poolclass=NullPool`` so that no database
-    connection is ever reused across two different event loops.
+    :return: The event loop used by :func:`run_async` for the whole session.
+    """
+    loop = asyncio.new_event_loop()
+    yield loop
+    loop.close()
 
-    :param coroutine: The coroutine object to execute.
-    :return: The value returned by the coroutine.
+
+@pytest.fixture(scope="session")
+def run_async(event_loop: asyncio.AbstractEventLoop) -> RunAsync:
+    """
+    Provide a helper that runs a coroutine on the session's shared event loop.
+
+    :param event_loop: The session-scoped event loop.
+    :return: A callable that runs a coroutine to completion on that loop.
     """
 
-    async def execute() -> T:
-        return await awaitable
+    def _run[T](coroutine: Coroutine[Any, Any, T]) -> T:
+        return event_loop.run_until_complete(coroutine)
 
-    return asyncio.run(execute())
+    return _run
 
 
 @pytest.fixture(scope="session")
@@ -51,16 +69,12 @@ def postgres_container() -> Generator[PostgresContainer]:
 
 
 @pytest.fixture(scope="session")
-def db_engine(postgres_container: PostgresContainer) -> Generator[AsyncEngine]:
+def db_engine(postgres_container: PostgresContainer, run_async: RunAsync) -> Generator[AsyncEngine]:
     """
     Create the async engine used by tests and create all tables on it.
 
-    ``NullPool`` is required here: fixtures bridge async code into sync
-    pytest fixtures by opening a new event loop per call (see
-    :func:`run_async`), and a pooled connection created in one event loop
-    cannot be reused safely in another.
-
     :param postgres_container: The running Postgres test container.
+    :param run_async: The helper that runs coroutines on the shared loop.
     :return: An :class:`AsyncEngine` connected to the test database.
     """
     engine = create_async_engine(postgres_container.get_connection_url(), poolclass=NullPool)
@@ -77,7 +91,7 @@ def db_engine(postgres_container: PostgresContainer) -> Generator[AsyncEngine]:
 
 
 @pytest.fixture
-def db_session(db_engine: AsyncEngine) -> Generator[AsyncSession]:
+def db_session(db_engine: AsyncEngine, run_async: RunAsync) -> Generator[AsyncSession]:
     """
     Provide a database session isolated to a single test.
 
@@ -89,6 +103,7 @@ def db_session(db_engine: AsyncEngine) -> Generator[AsyncSession]:
     data written during the test persists.
 
     :param db_engine: The session-scoped async engine.
+    :param run_async: The helper that runs coroutines on the shared loop.
     :return: An :class:`AsyncSession` scoped to a transaction that is
         rolled back once the test completes.
     """
