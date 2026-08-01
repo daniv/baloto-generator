@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lottery Page Objects Test Planning</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --surface: #11182a;
+      --surface-soft: #151d31;
+      --surface-hover: #1a243b;
+      --text: #edf2f7;
+      --muted: #9aa6b8;
+      --line: #26324a;
+      --accent: #6ea8fe;
+      --accent-soft: rgba(110, 168, 254, 0.12);
+      --p0: #ff6b6b;
+      --p1: #f6b94c;
+      --p2: #5f9df7;
+      --p3: #8a94a6;
+      --game: #58d6a6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top right, rgba(65, 105, 225, 0.12), transparent 32%),
+        linear-gradient(180deg, #0b1020 0%, #0d1324 100%);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    main {
+      width: min(1640px, 96vw);
+      margin: 40px auto 72px;
+    }
+
+    header {
+      margin-bottom: 28px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 750;
+      letter-spacing: -0.035em;
+    }
+
+    h2 {
+      margin: 34px 0 14px;
+      color: #f8fafc;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    code {
+      padding: 2px 6px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #0f1728;
+      color: #c9ddff;
+      font-family: "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+      font-size: 0.92em;
+    }
+
+    .scope {
+      margin: 0 0 26px;
+      padding: 18px 20px;
+      border: 1px solid rgba(110, 168, 254, 0.28);
+      border-left: 4px solid var(--accent);
+      border-radius: 10px;
+      background: var(--accent-soft);
+      color: #dce8fb;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap: 12px;
+      margin: 22px 0 12px;
+    }
+
+    .card {
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: linear-gradient(180deg, var(--surface-soft), var(--surface));
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+    }
+
+    .card strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #ffffff;
+      font-size: 1.55rem;
+      font-weight: 750;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px 14px;
+      align-items: center;
+      max-width: 980px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(17, 24, 42, 0.72);
+    }
+
+    .priority {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 42px;
+      height: 26px;
+      padding: 0 9px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .p0 {
+      background: rgba(255, 107, 107, 0.15);
+      color: var(--p0);
+      border: 1px solid rgba(255, 107, 107, 0.34);
+    }
+
+    .p1 {
+      background: rgba(246, 185, 76, 0.14);
+      color: var(--p1);
+      border: 1px solid rgba(246, 185, 76, 0.32);
+    }
+
+    .p2 {
+      background: rgba(95, 157, 247, 0.14);
+      color: var(--p2);
+      border: 1px solid rgba(95, 157, 247, 0.32);
+    }
+
+    .p3 {
+      background: rgba(138, 148, 166, 0.14);
+      color: var(--p3);
+      border: 1px solid rgba(138, 148, 166, 0.3);
+    }
+
+    .table-wrap {
+      width: 100%;
+      height: min(68vh, 760px);
+      min-height: 420px;
+      overflow: auto;
+      scrollbar-gutter: stable both-edges;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
+      overscroll-behavior: contain;
+    }
+
+    .table-wrap::-webkit-scrollbar {
+      width: 14px;
+      height: 14px;
+    }
+
+    .table-wrap::-webkit-scrollbar-track {
+      background: #0d1424;
+      border-radius: 0 0 12px 12px;
+    }
+
+    .table-wrap::-webkit-scrollbar-thumb {
+      background: #41506d;
+      border: 3px solid #0d1424;
+      border-radius: 999px;
+    }
+
+    .table-wrap::-webkit-scrollbar-thumb:hover {
+      background: #58709a;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1180px;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      padding: 10px 12px;
+      border-bottom: 1px solid #34415b;
+      background: #172035;
+      color: #b9c4d6;
+      text-align: left;
+      font-size: 0.68rem;
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    tbody td {
+      padding: 9px 12px;
+      border-bottom: 1px solid rgba(38, 50, 74, 0.78);
+      color: #d8e0ec;
+      vertical-align: top;
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(21, 29, 49, 0.42);
+    }
+
+    tbody tr:hover {
+      background: var(--surface-hover);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    thead th:first-child,
+    tbody td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      background: #11182a;
+      box-shadow: 1px 0 0 var(--line);
+    }
+
+    thead th:first-child {
+      z-index: 4;
+      background: #172035;
+    }
+
+    td:nth-child(1) {
+      width: 76px;
+      color: #9cbcff;
+      font-family: "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+      font-weight: 700;
+    }
+
+    td:nth-child(2) {
+      width: 88px;
+    }
+
+    td:nth-child(3) {
+      width: 76px;
+    }
+
+    td:nth-child(4) {
+      width: 170px;
+      color: #b9c5d8;
+    }
+
+    td:nth-child(5) {
+      width: 300px;
+      color: #f4f7fb;
+      font-weight: 650;
+    }
+
+    td.game {
+      color: var(--game);
+      text-align: center;
+      font-family: "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+      letter-spacing: 0.05em;
+    }
+
+    .note {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-left: 3px solid var(--p3);
+      background: rgba(138, 148, 166, 0.08);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 900px) {
+      .summary {
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+      }
+    }
+
+    @media print {
+      .table-wrap {
+        height: auto;
+        overflow: visible;
+      }
+
+      body {
+        background: #ffffff;
+        color: #111827;
+      }
+
+      main {
+        width: 100%;
+        margin: 0;
+      }
+
+      .table-wrap {
+        overflow: visible;
+        border: 1px solid #cbd5e1;
+        box-shadow: none;
+      }
+
+      thead th {
+        position: static;
+      }
+
+      tbody tr {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Lottery Page Objects Test Planning</h1>
+      <p>
+      Maximum meaningful coverage of the currently exposed page object classes:
+      <code>BalotoPage</code>, <code>RevanchaPage</code>, and <code>MilotoPage</code>.
+    </p>
+    </header>
+
+    <div class="scope">
+      <strong>Coverage strategy:</strong>
+      validate public behavior from top to bottom while exercising private parsing,
+      locator, normalization, structural, and state branches indirectly. Shared
+      behavior marked <strong>BR</strong> or <strong>BRM</strong> is intended to be
+      implemented with <code>pytest.mark.parametrize</code> and a
+      <code>game_type</code> parameter.
+    </div>
+
+    <div class="summary">
+      <div class="card"><strong>65</strong>Total planned tests</div>
+      <div class="card"><strong>15</strong>P0</div>
+      <div class="card"><strong>41</strong>P1</div>
+      <div class="card"><strong>6</strong>P2</div>
+      <div class="card"><strong>3</strong>P3</div>
+    </div>
+
+    <h2>Priority model</h2>
+    <div class="legend">
+      <span class="priority p0">P0</span><span>Critical game identity or data-integrity protection.</span>
+      <span class="priority p1">P1</span><span>Core extraction, validation, and malformed-fixture behavior.</span>
+      <span class="priority p2">P2</span><span>Contracts, metadata, normalization, and secondary behavior.</span>
+      <span class="priority p3">P3</span><span>Warnings, missing test data, cleanup, and non-functional regression protection.</span>
+    </div>
+
+    <h2>Game codes</h2>
+    <div class="legend">
+      <strong>B</strong><span>Baloto only.</span>
+      <strong>R</strong><span>Revancha only.</span>
+      <strong>M</strong><span>Miloto only.</span>
+      <strong>BR</strong><span>Shared Baloto and Revancha behavior; use parametrization.</span>
+      <strong>BRM</strong><span>Shared behavior across all three games; use parametrization.</span>
+    </div>
+
+    <h2>Planned tests</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#Test</th>
+            <th>Priority</th>
+            <th>Game</th>
+            <th>Type</th>
+            <th>Test name</th>
+            <th>Objective</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td>T001</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Positive / Identity</td>
+            <td>Correct game document is accepted</td>
+            <td>Verify that each exposed page object accepts the matching game fixture before extracting data.</td>
+          </tr>
+
+          <tr>
+            <td>T002</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>B</strong></td>
+            <td>Negative / Identity</td>
+            <td>Baloto page rejects Revancha document</td>
+            <td>Prevent Revancha result data from being processed through BalotoPage.</td>
+          </tr>
+
+          <tr>
+            <td>T003</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>R</strong></td>
+            <td>Negative / Identity</td>
+            <td>Revancha page rejects Baloto document</td>
+            <td>Prevent Baloto result data from being processed through RevanchaPage.</td>
+          </tr>
+
+          <tr>
+            <td>T004</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>M</strong></td>
+            <td>Negative / Identity</td>
+            <td>Miloto page rejects a non-Miloto document</td>
+            <td>Prevent Baloto-style result data from being processed through MilotoPage.</td>
+          </tr>
+
+          <tr>
+            <td>T005</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Automatic / Identity</td>
+            <td>Game validation runs before public extraction</td>
+            <td>Verify that callers cannot bypass game validation by omitting an explicit validate_game call.</td>
+          </tr>
+
+          <tr>
+            <td>T006</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>State / Identity</td>
+            <td>Successful game validation is cached</td>
+            <td>Verify that automatic game validation runs only once per valid page object instance.</td>
+          </tr>
+
+          <tr>
+            <td>T007</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / State</td>
+            <td>Failed game validation is not cached</td>
+            <td>Verify that a failed validation never marks the loaded document as trusted.</td>
+          </tr>
+
+          <tr>
+            <td>T008</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Positive / Draw ID</td>
+            <td>Draw ID is extracted and normalized</td>
+            <td>Verify that each game returns the expected integer draw ID from its localized displayed value.</td>
+          </tr>
+
+          <tr>
+            <td>T009</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Draw ID</td>
+            <td>Expected draw ID does not match displayed draw ID</td>
+            <td>Prevent valid result data from being associated with the wrong draw identifier.</td>
+          </tr>
+
+          <tr>
+            <td>T010</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Draw ID</td>
+            <td>Draw ID node is missing</td>
+            <td>Verify immediate ValueError when the required draw ID node does not exist.</td>
+          </tr>
+
+          <tr>
+            <td>T011</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Draw ID</td>
+            <td>Draw ID node is duplicated</td>
+            <td>Verify immediate ValueError when more than one draw ID node matches.</td>
+          </tr>
+
+          <tr>
+            <td>T012</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Draw ID</td>
+            <td>Draw ID text is malformed</td>
+            <td>Verify parsing failure when the displayed draw ID does not match the supported format.</td>
+          </tr>
+
+          <tr>
+            <td>T013</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Boundary / Constructor</td>
+            <td>Draw ID zero is rejected</td>
+            <td>Verify that exposed page objects cannot be created with draw_id equal to zero.</td>
+          </tr>
+
+          <tr>
+            <td>T014</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Boundary / Constructor</td>
+            <td>Negative draw ID is rejected</td>
+            <td>Verify that exposed page objects cannot be created with a negative draw_id.</td>
+          </tr>
+
+          <tr>
+            <td>T015</td>
+            <td><span class="priority p3">P3</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Warning / Test Data</td>
+            <td>Requested draw ID is absent from test data</td>
+            <td>Verify that an unknown draw ID returns no test case and emits a warning without opening a page or attempting extraction.</td>
+          </tr>
+
+          <tr>
+            <td>T016</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Positive / Date</td>
+            <td>Game date is returned as displayed</td>
+            <td>Verify that each page object returns the expected Spanish date text without unintended conversion.</td>
+          </tr>
+
+          <tr>
+            <td>T017</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Date</td>
+            <td>Game date node is missing</td>
+            <td>Verify immediate ValueError when the required game date node is absent.</td>
+          </tr>
+
+          <tr>
+            <td>T018</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Date</td>
+            <td>Game date node is duplicated</td>
+            <td>Verify immediate ValueError when multiple date nodes match.</td>
+          </tr>
+
+          <tr>
+            <td>T019</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Positive / Prize</td>
+            <td>Accumulated prize is converted to pesos</td>
+            <td>Verify conversion from localized millions text to the expected integer amount in Colombian pesos.</td>
+          </tr>
+
+          <tr>
+            <td>T020</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Prize</td>
+            <td>Accumulated prize node is missing</td>
+            <td>Verify immediate ValueError when the accumulated prize node is absent.</td>
+          </tr>
+
+          <tr>
+            <td>T021</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Prize</td>
+            <td>Accumulated prize node is duplicated</td>
+            <td>Verify immediate ValueError when multiple accumulated prize nodes match.</td>
+          </tr>
+
+          <tr>
+            <td>T022</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Prize</td>
+            <td>Accumulated prize text is malformed</td>
+            <td>Verify parsing failure when the accumulated prize does not follow the expected localized format.</td>
+          </tr>
+
+          <tr>
+            <td>T023</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Positive / Numbers</td>
+            <td>Exactly five winning numbers are extracted</td>
+            <td>Verify that every exposed game returns exactly five regular winning numbers.</td>
+          </tr>
+
+          <tr>
+            <td>T024</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Positive / Numbers</td>
+            <td>Winning numbers preserve displayed order</td>
+            <td>Verify that the extracted winning numbers keep the same order shown in the fixture.</td>
+          </tr>
+
+          <tr>
+            <td>T025</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Numbers</td>
+            <td>A winning-number node is missing</td>
+            <td>Verify immediate ValueError when fewer than five winning-number nodes exist.</td>
+          </tr>
+
+          <tr>
+            <td>T026</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Numbers</td>
+            <td>An extra winning-number node is present</td>
+            <td>Verify immediate ValueError when more than five winning-number nodes exist.</td>
+          </tr>
+
+          <tr>
+            <td>T027</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Numbers</td>
+            <td>Winning-number text is not numeric</td>
+            <td>Verify ValueError when one winning-number value cannot be converted to int.</td>
+          </tr>
+
+          <tr>
+            <td>T028</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>BR</strong></td>
+            <td>Positive / Superball</td>
+            <td>Superball is extracted</td>
+            <td>Verify that Baloto and Revancha return the expected red superball as an integer.</td>
+          </tr>
+
+          <tr>
+            <td>T029</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>BR</strong></td>
+            <td>Positive / Superball</td>
+            <td>Superball is excluded from regular numbers</td>
+            <td>Verify that the red superball is never included among the five regular winning numbers.</td>
+          </tr>
+
+          <tr>
+            <td>T030</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BR</strong></td>
+            <td>Negative / Superball</td>
+            <td>Superball node is missing</td>
+            <td>Verify immediate ValueError when the required red superball node is absent.</td>
+          </tr>
+
+          <tr>
+            <td>T031</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BR</strong></td>
+            <td>Negative / Superball</td>
+            <td>Superball node is duplicated</td>
+            <td>Verify immediate ValueError when more than one red superball node exists.</td>
+          </tr>
+
+          <tr>
+            <td>T032</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BR</strong></td>
+            <td>Negative / Superball</td>
+            <td>Superball text is not numeric</td>
+            <td>Verify ValueError when the superball value cannot be converted to int.</td>
+          </tr>
+
+          <tr>
+            <td>T033</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Positive / Details</td>
+            <td>Awarded prize categories are extracted</td>
+            <td>Verify winners and prize_for_winner for every category with registered winners.</td>
+          </tr>
+
+          <tr>
+            <td>T034</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Positive / Details</td>
+            <td>Zero-winner categories are omitted from get_details</td>
+            <td>Verify that categories with zero winners do not create persistence-ready payout records.</td>
+          </tr>
+
+          <tr>
+            <td>T035</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Positive / Detail</td>
+            <td>get_detail returns an awarded category</td>
+            <td>Verify that one valid category returns the expected winners and prize_for_winner values.</td>
+          </tr>
+
+          <tr>
+            <td>T036</td>
+            <td><span class="priority p0">P0</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Positive / Detail</td>
+            <td>get_detail returns None for a zero-winner category</td>
+            <td>Verify that a present category with zero winners is represented by None.</td>
+          </tr>
+
+          <tr>
+            <td>T037</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Detail</td>
+            <td>Unsupported requested category is rejected</td>
+            <td>Verify that TypeAdapter validation rejects any category outside the game-specific Literal.</td>
+          </tr>
+
+          <tr>
+            <td>T038</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Prize row count is lower than expected</td>
+            <td>Verify immediate ValueError when the prize table contains fewer category rows than required.</td>
+          </tr>
+
+          <tr>
+            <td>T039</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Prize row count is higher than expected</td>
+            <td>Verify immediate ValueError when the prize table contains additional unexpected category rows.</td>
+          </tr>
+
+          <tr>
+            <td>T040</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Prize-table header row is missing</td>
+            <td>Verify immediate ValueError when the required header row is absent.</td>
+          </tr>
+
+          <tr>
+            <td>T041</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Prize-table header row is duplicated</td>
+            <td>Verify immediate ValueError when more than one header row matches.</td>
+          </tr>
+
+          <tr>
+            <td>T042</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Prize-table header has an invalid column count</td>
+            <td>Verify immediate ValueError when the expected table structure is incomplete or expanded.</td>
+          </tr>
+
+          <tr>
+            <td>T043</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Required hits header is missing</td>
+            <td>Verify ValueError when the category column cannot be resolved.</td>
+          </tr>
+
+          <tr>
+            <td>T044</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Required winners header is missing</td>
+            <td>Verify ValueError when the winners column cannot be resolved.</td>
+          </tr>
+
+          <tr>
+            <td>T045</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Required prize-per-winner header is missing</td>
+            <td>Verify ValueError when the prize_for_winner column cannot be resolved.</td>
+          </tr>
+
+          <tr>
+            <td>T046</td>
+            <td><span class="priority p2">P2</span></td>
+            <td class="game"><strong>BR</strong></td>
+            <td>Positive / Details</td>
+            <td>PREMIO TOTAL remains non-contractual</td>
+            <td>Verify that Baloto and Revancha extraction does not depend on the PREMIO TOTAL cell value.</td>
+          </tr>
+
+          <tr>
+            <td>T047</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Prize row has an invalid cell count</td>
+            <td>Verify immediate ValueError when a category row is structurally incomplete.</td>
+          </tr>
+
+          <tr>
+            <td>T048</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Winner count is not numeric</td>
+            <td>Verify ValueError when the winners cell contains no parseable integer.</td>
+          </tr>
+
+          <tr>
+            <td>T049</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Prize per winner is not numeric</td>
+            <td>Verify ValueError when the payout cell contains no parseable integer.</td>
+          </tr>
+
+          <tr>
+            <td>T050</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Unsupported category exists in the fixture</td>
+            <td>Verify that an extracted category outside the game-specific Literal raises ValidationError.</td>
+          </tr>
+
+          <tr>
+            <td>T051</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Duplicate category exists in the fixture</td>
+            <td>Verify ValueError when two rows normalize to the same category.</td>
+          </tr>
+
+          <tr>
+            <td>T052</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Details</td>
+            <td>Expected category is missing from the fixture</td>
+            <td>Verify ValueError when the complete set of required categories is not discovered.</td>
+          </tr>
+
+          <tr>
+            <td>T053</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Negative / Detail</td>
+            <td>Requested valid category is absent from the fixture</td>
+            <td>Verify ValueError when get_detail requests a valid category that does not exist in the loaded fixture.</td>
+          </tr>
+
+          <tr>
+            <td>T054</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BR</strong></td>
+            <td>Normalization / Detail</td>
+            <td>Lowercase superball category is normalized</td>
+            <td>Verify that a value such as 2+sb is accepted as the canonical 2+SB category.</td>
+          </tr>
+
+          <tr>
+            <td>T055</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>BR</strong></td>
+            <td>Normalization / Detail</td>
+            <td>Whitespace in superball category is normalized</td>
+            <td>Verify that a value such as &#x27; 2 + sb &#x27; is accepted as 2+SB.</td>
+          </tr>
+
+          <tr>
+            <td>T056</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>M</strong></td>
+            <td>Positive / Categories</td>
+            <td>Miloto category 2 is accepted</td>
+            <td>Verify that Miloto get_detail accepts the lowest supported hit category.</td>
+          </tr>
+
+          <tr>
+            <td>T057</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>M</strong></td>
+            <td>Positive / Categories</td>
+            <td>Miloto category 5 is accepted</td>
+            <td>Verify that Miloto get_detail accepts the highest supported hit category.</td>
+          </tr>
+
+          <tr>
+            <td>T058</td>
+            <td><span class="priority p1">P1</span></td>
+            <td class="game"><strong>M</strong></td>
+            <td>Negative / Categories</td>
+            <td>Miloto rejects superball categories</td>
+            <td>Verify that Miloto rejects categories such as SB or 2+SB because the game has no superball.</td>
+          </tr>
+
+          <tr>
+            <td>T059</td>
+            <td><span class="priority p2">P2</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Positive / Metadata</td>
+            <td>result_url returns the configured game URL</td>
+            <td>Verify that each exposed page object returns the configured URL for its own game.</td>
+          </tr>
+
+          <tr>
+            <td>T060</td>
+            <td><span class="priority p2">P2</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Positive / Metadata</td>
+            <td>game_name returns the concrete game name</td>
+            <td>Verify that each exposed page object reports the correct human-readable game name.</td>
+          </tr>
+
+          <tr>
+            <td>T061</td>
+            <td><span class="priority p2">P2</span></td>
+            <td class="game"><strong>BR</strong></td>
+            <td>Positive / Production Marker</td>
+            <td>Baloto-style production image marker is accepted</td>
+            <td>Verify game validation through the real Baloto or Revancha image marker when data-game is absent.</td>
+          </tr>
+
+          <tr>
+            <td>T062</td>
+            <td><span class="priority p2">P2</span></td>
+            <td class="game"><strong>BR</strong></td>
+            <td>Negative / Production Marker</td>
+            <td>Opposite production image marker is rejected</td>
+            <td>Verify that BalotoPage and RevanchaPage reject the other game&#x27;s production marker.</td>
+          </tr>
+
+          <tr>
+            <td>T063</td>
+            <td><span class="priority p2">P2</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Protocol / Contract</td>
+            <td>Exposed page object satisfies ResultPage contract</td>
+            <td>Verify that each concrete page exposes the required asynchronous public operations.</td>
+          </tr>
+
+          <tr>
+            <td>T064</td>
+            <td><span class="priority p3">P3</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Regression / Timeout</td>
+            <td>Malformed fixtures fail without Playwright timeout</td>
+            <td>Verify that missing required nodes raise logical validation errors instead of waiting for locator timeouts.</td>
+          </tr>
+
+          <tr>
+            <td>T065</td>
+            <td><span class="priority p3">P3</span></td>
+            <td class="game"><strong>BRM</strong></td>
+            <td>Regression / Cleanup</td>
+            <td>Fixture teardown closes Playwright resources</td>
+            <td>Verify that tests complete without unclosed transport, browser, context, or subprocess warnings.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note">
+      The P3 unknown draw case represents the offline test condition only:
+      the requested draw ID is absent from JSON test data, so no page is opened,
+      no extraction is attempted, the factory returns no test case, and a warning
+      is emitted. Production homepage behavior is intentionally not simulated.
+    </p>
+  </main>
+</body>
+</html>
