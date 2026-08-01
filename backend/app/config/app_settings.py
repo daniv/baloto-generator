@@ -48,17 +48,15 @@ class BalotoModel(BaseModel):
         calendar.THURSDAY,
         calendar.FRIDAY,
     ]
-    miloto_min_hits_prize: Annotated[int, Field(description="The miloto minimum prize (2 hits) default = $4K COP")] = (
-        4_000
-    )
+    miloto_min_hits_prize: Annotated[int, Field(description="The min prize default = $4K COP")] = 4_000
     miloto_max_num: Annotated[int, Field(description="The miloto game max number. default = 39")] = 39
 
     baloto_min_jackpot: Annotated[
         int, Field(description="The minimum baloto game jackpot prize. default $2000M COP")
     ] = 2_000_000_000  #  COP
-    baloto_min_hits_prize: Annotated[
-        int, Field(description="The baloto minimum prize (balota hit) default = $6K COP")
-    ] = 6_000
+    baloto_min_hits_prize: Annotated[int, Field(description="The baloto min prize (balota hit) default = $6K COP")] = (
+        6_000
+    )
     revancha_min_hits_prize: Annotated[
         int, Field(description="The miloto revancha prize (1 balota) default = $3K COP")
     ] = 3000
