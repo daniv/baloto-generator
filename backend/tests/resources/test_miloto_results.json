@@ -1,0 +1,1182 @@
+[
+    {
+        "game_id": 1,
+        "game_date": "2023-10-23",
+        "num_1": 2,
+        "num_2": 8,
+        "num_3": 15,
+        "num_4": 16,
+        "num_5": 18,
+        "accumulated": 120000000,
+        "hits_2": {
+            "prize_for_winner": 3285,
+            "winners": 919
+        },
+        "hits_3": {
+            "prize_for_winner": 52174,
+            "winners": 239
+        },
+        "hits_4": {
+            "prize_for_winner": 685929,
+            "winners": 3
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 2,
+        "game_date": "2023-10-24",
+        "num_1": 2,
+        "num_2": 3,
+        "num_3": 6,
+        "num_4": 28,
+        "num_5": 38,
+        "accumulated": 121000000,
+        "hits_2": {
+            "prize_for_winner": 3447,
+            "winners": 1452
+        },
+        "hits_3": {
+            "prize_for_winner": 46559,
+            "winners": 204
+        },
+        "hits_4": {
+            "prize_for_winner": 413912,
+            "winners": 10
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 3,
+        "game_date": "2023-10-25",
+        "num_1": 13,
+        "num_2": 15,
+        "num_3": 27,
+        "num_4": 29,
+        "num_5": 35,
+        "accumulated": 122000000,
+        "hits_2": {
+            "prize_for_winner": 4206,
+            "winners": 1639
+        },
+        "hits_3": {
+            "prize_for_winner": 56523,
+            "winners": 272
+        },
+        "hits_4": {
+            "prize_for_winner": 403407,
+            "winners": 14
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 4,
+        "game_date": "2023-10-26",
+        "num_1": 10,
+        "num_2": 11,
+        "num_3": 18,
+        "num_4": 22,
+        "num_5": 28,
+        "accumulated": 123000000,
+        "hits_2": {
+            "prize_for_winner": 3440,
+            "winners": 1878
+        },
+        "hits_3": {
+            "prize_for_winner": 33349,
+            "winners": 73
+        },
+        "hits_4": {
+            "prize_for_winner": 599191,
+            "winners": 3
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 5,
+        "game_date": "2023-10-27",
+        "num_1": 3,
+        "num_2": 17,
+        "num_3": 23,
+        "num_4": 30,
+        "num_5": 39,
+        "accumulated": 124000000,
+        "hits_2": {
+            "prize_for_winner": 4098,
+            "winners": 1011
+        },
+        "hits_3": {
+            "prize_for_winner": 42403,
+            "winners": 70
+        },
+        "hits_4": {
+            "prize_for_winner": 689428,
+            "winners": 6
+        },
+        "hits_5": {
+            "prize_for_winner": 124000000,
+            "winners": 1
+        }
+    },
+    {
+        "game_id": 6,
+        "game_date": "2023-10-28",
+        "num_1": 3,
+        "num_2": 5,
+        "num_3": 13,
+        "num_4": 24,
+        "num_5": 37,
+        "accumulated": 120000000,
+        "hits_2": {
+            "prize_for_winner": 4354,
+            "winners": 1433
+        },
+        "hits_3": {
+            "prize_for_winner": 55331,
+            "winners": 124
+        },
+        "hits_4": {
+            "prize_for_winner": 441833,
+            "winners": 15
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 7,
+        "game_date": "2023-10-29",
+        "num_1": 7,
+        "num_2": 15,
+        "num_3": 18,
+        "num_4": 25,
+        "num_5": 30,
+        "accumulated": 121000000,
+        "hits_2": {
+            "prize_for_winner": 4301,
+            "winners": 1994
+        },
+        "hits_3": {
+            "prize_for_winner": 35329,
+            "winners": 144
+        },
+        "hits_4": {
+            "prize_for_winner": 586264,
+            "winners": 5
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 8,
+        "game_date": "2023-10-30",
+        "num_1": 5,
+        "num_2": 11,
+        "num_3": 18,
+        "num_4": 35,
+        "num_5": 39,
+        "accumulated": 122000000,
+        "hits_2": {
+            "prize_for_winner": 4493,
+            "winners": 1502
+        },
+        "hits_3": {
+            "prize_for_winner": 35354,
+            "winners": 168
+        },
+        "hits_4": {
+            "prize_for_winner": 598943,
+            "winners": 6
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 9,
+        "game_date": "2023-10-31",
+        "num_1": 3,
+        "num_2": 4,
+        "num_3": 15,
+        "num_4": 21,
+        "num_5": 36,
+        "accumulated": 123000000,
+        "hits_2": {
+            "prize_for_winner": 4648,
+            "winners": 1792
+        },
+        "hits_3": {
+            "prize_for_winner": 43145,
+            "winners": 118
+        },
+        "hits_4": {
+            "prize_for_winner": 434701,
+            "winners": 5
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 10,
+        "game_date": "2023-11-01",
+        "num_1": 14,
+        "num_2": 21,
+        "num_3": 26,
+        "num_4": 32,
+        "num_5": 37,
+        "accumulated": 124000000,
+        "hits_2": {
+            "prize_for_winner": 4811,
+            "winners": 2379
+        },
+        "hits_3": {
+            "prize_for_winner": 34681,
+            "winners": 117
+        },
+        "hits_4": {
+            "prize_for_winner": 473206,
+            "winners": 5
+        },
+        "hits_5": {
+            "prize_for_winner": 124000000,
+            "winners": 1
+        }
+    },
+    {
+        "game_id": 11,
+        "game_date": "2023-11-02",
+        "num_1": 17,
+        "num_2": 28,
+        "num_3": 35,
+        "num_4": 36,
+        "num_5": 38,
+        "accumulated": 120000000,
+        "hits_2": {
+            "prize_for_winner": 4838,
+            "winners": 2890
+        },
+        "hits_3": {
+            "prize_for_winner": 43087,
+            "winners": 142
+        },
+        "hits_4": {
+            "prize_for_winner": 514987,
+            "winners": 4
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 12,
+        "game_date": "2023-11-03",
+        "num_1": 4,
+        "num_2": 6,
+        "num_3": 8,
+        "num_4": 32,
+        "num_5": 33,
+        "accumulated": 121000000,
+        "hits_2": {
+            "prize_for_winner": 3313,
+            "winners": 1155
+        },
+        "hits_3": {
+            "prize_for_winner": 55954,
+            "winners": 224
+        },
+        "hits_4": {
+            "prize_for_winner": 621333,
+            "winners": 11
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 13,
+        "game_date": "2023-11-04",
+        "num_1": 5,
+        "num_2": 25,
+        "num_3": 30,
+        "num_4": 34,
+        "num_5": 39,
+        "accumulated": 122000000,
+        "hits_2": {
+            "prize_for_winner": 3514,
+            "winners": 2766
+        },
+        "hits_3": {
+            "prize_for_winner": 58206,
+            "winners": 291
+        },
+        "hits_4": {
+            "prize_for_winner": 406019,
+            "winners": 12
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 14,
+        "game_date": "2023-11-05",
+        "num_1": 8,
+        "num_2": 18,
+        "num_3": 19,
+        "num_4": 22,
+        "num_5": 35,
+        "accumulated": 123000000,
+        "hits_2": {
+            "prize_for_winner": 3890,
+            "winners": 1147
+        },
+        "hits_3": {
+            "prize_for_winner": 44867,
+            "winners": 50
+        },
+        "hits_4": {
+            "prize_for_winner": 538091,
+            "winners": 10
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 15,
+        "game_date": "2023-11-06",
+        "num_1": 7,
+        "num_2": 12,
+        "num_3": 20,
+        "num_4": 33,
+        "num_5": 39,
+        "accumulated": 124000000,
+        "hits_2": {
+            "prize_for_winner": 3407,
+            "winners": 1126
+        },
+        "hits_3": {
+            "prize_for_winner": 42252,
+            "winners": 245
+        },
+        "hits_4": {
+            "prize_for_winner": 484698,
+            "winners": 10
+        },
+        "hits_5": {
+            "prize_for_winner": 124000000,
+            "winners": 1
+        }
+    },
+    {
+        "game_id": 16,
+        "game_date": "2023-11-07",
+        "num_1": 1,
+        "num_2": 21,
+        "num_3": 32,
+        "num_4": 34,
+        "num_5": 39,
+        "accumulated": 120000000,
+        "hits_2": {
+            "prize_for_winner": 3039,
+            "winners": 958
+        },
+        "hits_3": {
+            "prize_for_winner": 41894,
+            "winners": 274
+        },
+        "hits_4": {
+            "prize_for_winner": 561225,
+            "winners": 5
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 17,
+        "game_date": "2023-11-08",
+        "num_1": 4,
+        "num_2": 6,
+        "num_3": 16,
+        "num_4": 32,
+        "num_5": 37,
+        "accumulated": 121000000,
+        "hits_2": {
+            "prize_for_winner": 4671,
+            "winners": 783
+        },
+        "hits_3": {
+            "prize_for_winner": 54923,
+            "winners": 186
+        },
+        "hits_4": {
+            "prize_for_winner": 465934,
+            "winners": 4
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 18,
+        "game_date": "2023-11-09",
+        "num_1": 11,
+        "num_2": 17,
+        "num_3": 31,
+        "num_4": 34,
+        "num_5": 36,
+        "accumulated": 122000000,
+        "hits_2": {
+            "prize_for_winner": 4786,
+            "winners": 2984
+        },
+        "hits_3": {
+            "prize_for_winner": 43865,
+            "winners": 296
+        },
+        "hits_4": {
+            "prize_for_winner": 511043,
+            "winners": 10
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 19,
+        "game_date": "2023-11-10",
+        "num_1": 13,
+        "num_2": 20,
+        "num_3": 24,
+        "num_4": 26,
+        "num_5": 29,
+        "accumulated": 123000000,
+        "hits_2": {
+            "prize_for_winner": 4842,
+            "winners": 2619
+        },
+        "hits_3": {
+            "prize_for_winner": 44794,
+            "winners": 80
+        },
+        "hits_4": {
+            "prize_for_winner": 529973,
+            "winners": 5
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 20,
+        "game_date": "2023-11-11",
+        "num_1": 2,
+        "num_2": 5,
+        "num_3": 22,
+        "num_4": 36,
+        "num_5": 38,
+        "accumulated": 124000000,
+        "hits_2": {
+            "prize_for_winner": 3471,
+            "winners": 2910
+        },
+        "hits_3": {
+            "prize_for_winner": 37216,
+            "winners": 51
+        },
+        "hits_4": {
+            "prize_for_winner": 437220,
+            "winners": 13
+        },
+        "hits_5": {
+            "prize_for_winner": 124000000,
+            "winners": 1
+        }
+    },
+    {
+        "game_id": 21,
+        "game_date": "2023-11-12",
+        "num_1": 3,
+        "num_2": 4,
+        "num_3": 5,
+        "num_4": 15,
+        "num_5": 22,
+        "accumulated": 120000000,
+        "hits_2": {
+            "prize_for_winner": 3145,
+            "winners": 2605
+        },
+        "hits_3": {
+            "prize_for_winner": 37798,
+            "winners": 121
+        },
+        "hits_4": {
+            "prize_for_winner": 654496,
+            "winners": 5
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 22,
+        "game_date": "2023-11-13",
+        "num_1": 9,
+        "num_2": 16,
+        "num_3": 31,
+        "num_4": 35,
+        "num_5": 37,
+        "accumulated": 121000000,
+        "hits_2": {
+            "prize_for_winner": 4606,
+            "winners": 2437
+        },
+        "hits_3": {
+            "prize_for_winner": 56460,
+            "winners": 154
+        },
+        "hits_4": {
+            "prize_for_winner": 499829,
+            "winners": 3
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 23,
+        "game_date": "2023-11-14",
+        "num_1": 7,
+        "num_2": 23,
+        "num_3": 27,
+        "num_4": 28,
+        "num_5": 30,
+        "accumulated": 122000000,
+        "hits_2": {
+            "prize_for_winner": 4769,
+            "winners": 721
+        },
+        "hits_3": {
+            "prize_for_winner": 52064,
+            "winners": 217
+        },
+        "hits_4": {
+            "prize_for_winner": 451599,
+            "winners": 2
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 24,
+        "game_date": "2023-11-15",
+        "num_1": 7,
+        "num_2": 13,
+        "num_3": 16,
+        "num_4": 22,
+        "num_5": 26,
+        "accumulated": 123000000,
+        "hits_2": {
+            "prize_for_winner": 3389,
+            "winners": 2696
+        },
+        "hits_3": {
+            "prize_for_winner": 44700,
+            "winners": 85
+        },
+        "hits_4": {
+            "prize_for_winner": 621187,
+            "winners": 4
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 25,
+        "game_date": "2023-11-16",
+        "num_1": 5,
+        "num_2": 16,
+        "num_3": 18,
+        "num_4": 29,
+        "num_5": 30,
+        "accumulated": 124000000,
+        "hits_2": {
+            "prize_for_winner": 4654,
+            "winners": 2754
+        },
+        "hits_3": {
+            "prize_for_winner": 33208,
+            "winners": 62
+        },
+        "hits_4": {
+            "prize_for_winner": 683423,
+            "winners": 15
+        },
+        "hits_5": {
+            "prize_for_winner": 124000000,
+            "winners": 1
+        }
+    },
+    {
+        "game_id": 26,
+        "game_date": "2023-11-17",
+        "num_1": 1,
+        "num_2": 6,
+        "num_3": 11,
+        "num_4": 16,
+        "num_5": 27,
+        "accumulated": 120000000,
+        "hits_2": {
+            "prize_for_winner": 3994,
+            "winners": 2471
+        },
+        "hits_3": {
+            "prize_for_winner": 37004,
+            "winners": 271
+        },
+        "hits_4": {
+            "prize_for_winner": 610260,
+            "winners": 2
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 27,
+        "game_date": "2023-11-18",
+        "num_1": 1,
+        "num_2": 11,
+        "num_3": 17,
+        "num_4": 25,
+        "num_5": 30,
+        "accumulated": 121000000,
+        "hits_2": {
+            "prize_for_winner": 3584,
+            "winners": 2232
+        },
+        "hits_3": {
+            "prize_for_winner": 52825,
+            "winners": 295
+        },
+        "hits_4": {
+            "prize_for_winner": 691382,
+            "winners": 12
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 28,
+        "game_date": "2023-11-19",
+        "num_1": 10,
+        "num_2": 13,
+        "num_3": 14,
+        "num_4": 19,
+        "num_5": 32,
+        "accumulated": 122000000,
+        "hits_2": {
+            "prize_for_winner": 4983,
+            "winners": 739
+        },
+        "hits_3": {
+            "prize_for_winner": 48978,
+            "winners": 238
+        },
+        "hits_4": {
+            "prize_for_winner": 684266,
+            "winners": 2
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 29,
+        "game_date": "2023-11-20",
+        "num_1": 4,
+        "num_2": 21,
+        "num_3": 31,
+        "num_4": 33,
+        "num_5": 38,
+        "accumulated": 123000000,
+        "hits_2": {
+            "prize_for_winner": 4882,
+            "winners": 2675
+        },
+        "hits_3": {
+            "prize_for_winner": 35158,
+            "winners": 64
+        },
+        "hits_4": {
+            "prize_for_winner": 666248,
+            "winners": 3
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 30,
+        "game_date": "2023-11-21",
+        "num_1": 5,
+        "num_2": 12,
+        "num_3": 16,
+        "num_4": 26,
+        "num_5": 39,
+        "accumulated": 124000000,
+        "hits_2": {
+            "prize_for_winner": 3245,
+            "winners": 2833
+        },
+        "hits_3": {
+            "prize_for_winner": 38067,
+            "winners": 198
+        },
+        "hits_4": {
+            "prize_for_winner": 420836,
+            "winners": 11
+        },
+        "hits_5": {
+            "prize_for_winner": 124000000,
+            "winners": 1
+        }
+    },
+    {
+        "game_id": 31,
+        "game_date": "2023-11-22",
+        "num_1": 6,
+        "num_2": 27,
+        "num_3": 34,
+        "num_4": 37,
+        "num_5": 38,
+        "accumulated": 120000000,
+        "hits_2": {
+            "prize_for_winner": 3647,
+            "winners": 1568
+        },
+        "hits_3": {
+            "prize_for_winner": 36693,
+            "winners": 221
+        },
+        "hits_4": {
+            "prize_for_winner": 564722,
+            "winners": 5
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 32,
+        "game_date": "2023-11-23",
+        "num_1": 9,
+        "num_2": 17,
+        "num_3": 20,
+        "num_4": 26,
+        "num_5": 30,
+        "accumulated": 121000000,
+        "hits_2": {
+            "prize_for_winner": 3647,
+            "winners": 797
+        },
+        "hits_3": {
+            "prize_for_winner": 30305,
+            "winners": 167
+        },
+        "hits_4": {
+            "prize_for_winner": 695170,
+            "winners": 3
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 33,
+        "game_date": "2023-11-24",
+        "num_1": 5,
+        "num_2": 14,
+        "num_3": 17,
+        "num_4": 33,
+        "num_5": 35,
+        "accumulated": 122000000,
+        "hits_2": {
+            "prize_for_winner": 3271,
+            "winners": 1929
+        },
+        "hits_3": {
+            "prize_for_winner": 58864,
+            "winners": 67
+        },
+        "hits_4": {
+            "prize_for_winner": 528075,
+            "winners": 7
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 34,
+        "game_date": "2023-11-25",
+        "num_1": 11,
+        "num_2": 19,
+        "num_3": 20,
+        "num_4": 29,
+        "num_5": 35,
+        "accumulated": 123000000,
+        "hits_2": {
+            "prize_for_winner": 4252,
+            "winners": 2666
+        },
+        "hits_3": {
+            "prize_for_winner": 30256,
+            "winners": 220
+        },
+        "hits_4": {
+            "prize_for_winner": 690771,
+            "winners": 6
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 35,
+        "game_date": "2023-11-26",
+        "num_1": 7,
+        "num_2": 8,
+        "num_3": 9,
+        "num_4": 17,
+        "num_5": 36,
+        "accumulated": 124000000,
+        "hits_2": {
+            "prize_for_winner": 3318,
+            "winners": 1615
+        },
+        "hits_3": {
+            "prize_for_winner": 39232,
+            "winners": 204
+        },
+        "hits_4": {
+            "prize_for_winner": 510430,
+            "winners": 13
+        },
+        "hits_5": {
+            "prize_for_winner": 124000000,
+            "winners": 1
+        }
+    },
+    {
+        "game_id": 36,
+        "game_date": "2023-11-27",
+        "num_1": 14,
+        "num_2": 17,
+        "num_3": 22,
+        "num_4": 32,
+        "num_5": 33,
+        "accumulated": 120000000,
+        "hits_2": {
+            "prize_for_winner": 3514,
+            "winners": 708
+        },
+        "hits_3": {
+            "prize_for_winner": 33024,
+            "winners": 212
+        },
+        "hits_4": {
+            "prize_for_winner": 622075,
+            "winners": 15
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 37,
+        "game_date": "2023-11-28",
+        "num_1": 1,
+        "num_2": 3,
+        "num_3": 9,
+        "num_4": 18,
+        "num_5": 22,
+        "accumulated": 121000000,
+        "hits_2": {
+            "prize_for_winner": 4304,
+            "winners": 1572
+        },
+        "hits_3": {
+            "prize_for_winner": 35294,
+            "winners": 239
+        },
+        "hits_4": {
+            "prize_for_winner": 631649,
+            "winners": 10
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 38,
+        "game_date": "2023-11-29",
+        "num_1": 1,
+        "num_2": 5,
+        "num_3": 8,
+        "num_4": 28,
+        "num_5": 36,
+        "accumulated": 122000000,
+        "hits_2": {
+            "prize_for_winner": 4935,
+            "winners": 1110
+        },
+        "hits_3": {
+            "prize_for_winner": 47877,
+            "winners": 59
+        },
+        "hits_4": {
+            "prize_for_winner": 593575,
+            "winners": 11
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 39,
+        "game_date": "2023-11-30",
+        "num_1": 3,
+        "num_2": 9,
+        "num_3": 10,
+        "num_4": 28,
+        "num_5": 36,
+        "accumulated": 123000000,
+        "hits_2": {
+            "prize_for_winner": 3631,
+            "winners": 1993
+        },
+        "hits_3": {
+            "prize_for_winner": 59457,
+            "winners": 288
+        },
+        "hits_4": {
+            "prize_for_winner": 420916,
+            "winners": 7
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 40,
+        "game_date": "2023-12-01",
+        "num_1": 7,
+        "num_2": 14,
+        "num_3": 16,
+        "num_4": 23,
+        "num_5": 36,
+        "accumulated": 124000000,
+        "hits_2": {
+            "prize_for_winner": 4810,
+            "winners": 2164
+        },
+        "hits_3": {
+            "prize_for_winner": 50337,
+            "winners": 241
+        },
+        "hits_4": {
+            "prize_for_winner": 481030,
+            "winners": 5
+        },
+        "hits_5": {
+            "prize_for_winner": 124000000,
+            "winners": 1
+        }
+    },
+    {
+        "game_id": 41,
+        "game_date": "2023-12-02",
+        "num_1": 2,
+        "num_2": 11,
+        "num_3": 12,
+        "num_4": 22,
+        "num_5": 27,
+        "accumulated": 120000000,
+        "hits_2": {
+            "prize_for_winner": 4602,
+            "winners": 2186
+        },
+        "hits_3": {
+            "prize_for_winner": 56287,
+            "winners": 221
+        },
+        "hits_4": {
+            "prize_for_winner": 530111,
+            "winners": 6
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 42,
+        "game_date": "2023-12-03",
+        "num_1": 3,
+        "num_2": 7,
+        "num_3": 11,
+        "num_4": 25,
+        "num_5": 31,
+        "accumulated": 121000000,
+        "hits_2": {
+            "prize_for_winner": 3455,
+            "winners": 1317
+        },
+        "hits_3": {
+            "prize_for_winner": 56757,
+            "winners": 285
+        },
+        "hits_4": {
+            "prize_for_winner": 641331,
+            "winners": 7
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 43,
+        "game_date": "2023-12-04",
+        "num_1": 2,
+        "num_2": 13,
+        "num_3": 15,
+        "num_4": 20,
+        "num_5": 26,
+        "accumulated": 122000000,
+        "hits_2": {
+            "prize_for_winner": 3672,
+            "winners": 1641
+        },
+        "hits_3": {
+            "prize_for_winner": 58323,
+            "winners": 67
+        },
+        "hits_4": {
+            "prize_for_winner": 546341,
+            "winners": 7
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 44,
+        "game_date": "2023-12-05",
+        "num_1": 2,
+        "num_2": 22,
+        "num_3": 26,
+        "num_4": 33,
+        "num_5": 35,
+        "accumulated": 123000000,
+        "hits_2": {
+            "prize_for_winner": 3236,
+            "winners": 1569
+        },
+        "hits_3": {
+            "prize_for_winner": 35851,
+            "winners": 198
+        },
+        "hits_4": {
+            "prize_for_winner": 539180,
+            "winners": 2
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 45,
+        "game_date": "2023-12-06",
+        "num_1": 7,
+        "num_2": 21,
+        "num_3": 23,
+        "num_4": 28,
+        "num_5": 39,
+        "accumulated": 124000000,
+        "hits_2": {
+            "prize_for_winner": 3893,
+            "winners": 2983
+        },
+        "hits_3": {
+            "prize_for_winner": 46758,
+            "winners": 79
+        },
+        "hits_4": {
+            "prize_for_winner": 601953,
+            "winners": 11
+        },
+        "hits_5": {
+            "prize_for_winner": 124000000,
+            "winners": 1
+        }
+    },
+    {
+        "game_id": 46,
+        "game_date": "2023-12-07",
+        "num_1": 1,
+        "num_2": 3,
+        "num_3": 13,
+        "num_4": 17,
+        "num_5": 28,
+        "accumulated": 120000000,
+        "hits_2": {
+            "prize_for_winner": 4064,
+            "winners": 2705
+        },
+        "hits_3": {
+            "prize_for_winner": 52506,
+            "winners": 234
+        },
+        "hits_4": {
+            "prize_for_winner": 503303,
+            "winners": 7
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 47,
+        "game_date": "2023-12-08",
+        "num_1": 5,
+        "num_2": 8,
+        "num_3": 21,
+        "num_4": 22,
+        "num_5": 28,
+        "accumulated": 121000000,
+        "hits_2": {
+            "prize_for_winner": 4474,
+            "winners": 1730
+        },
+        "hits_3": {
+            "prize_for_winner": 46617,
+            "winners": 129
+        },
+        "hits_4": {
+            "prize_for_winner": 614115,
+            "winners": 7
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 48,
+        "game_date": "2023-12-09",
+        "num_1": 9,
+        "num_2": 13,
+        "num_3": 19,
+        "num_4": 26,
+        "num_5": 36,
+        "accumulated": 122000000,
+        "hits_2": {
+            "prize_for_winner": 3861,
+            "winners": 2052
+        },
+        "hits_3": {
+            "prize_for_winner": 52194,
+            "winners": 241
+        },
+        "hits_4": {
+            "prize_for_winner": 491240,
+            "winners": 11
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 49,
+        "game_date": "2023-12-10",
+        "num_1": 1,
+        "num_2": 20,
+        "num_3": 26,
+        "num_4": 36,
+        "num_5": 37,
+        "accumulated": 123000000,
+        "hits_2": {
+            "prize_for_winner": 3622,
+            "winners": 1675
+        },
+        "hits_3": {
+            "prize_for_winner": 36887,
+            "winners": 160
+        },
+        "hits_4": {
+            "prize_for_winner": 568951,
+            "winners": 9
+        },
+        "hits_5": null
+    },
+    {
+        "game_id": 50,
+        "game_date": "2023-12-11",
+        "num_1": 11,
+        "num_2": 14,
+        "num_3": 29,
+        "num_4": 31,
+        "num_5": 33,
+        "accumulated": 124000000,
+        "hits_2": {
+            "prize_for_winner": 4349,
+            "winners": 847
+        },
+        "hits_3": {
+            "prize_for_winner": 39299,
+            "winners": 181
+        },
+        "hits_4": {
+            "prize_for_winner": 575735,
+            "winners": 3
+        },
+        "hits_5": {
+            "prize_for_winner": 124000000,
+            "winners": 1
+        }
+    }
+]
