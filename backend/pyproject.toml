@@ -9,12 +9,14 @@ dependencies = [
     "babel>=2.18.0",
     "dateparser>=1.4.1",
     "fastapi[standard]>=0.140.12",
+    "playwright>=1.62.0",
     "rich>=15.0.0",
     "sqlalchemy[asyncio]>=2.0.51",
 ]
 
 [dependency-groups]
 dev = [
+    "httpx2>=2.9.1",
     "poethepoet>=0.48.0",
     "pyright>=1.1.411",
     "pytest>=9.1.1",
@@ -102,18 +104,6 @@ pythonVersion = "3.14"
 typeCheckingMode = "strict"
 reportMissingTypeStubs = false
 
-[tool.poe.tasks]
-test = { cmd = "pytest", help = "Run the complete backend test suite." }
-testcov = { cmd = "pytest --cov=app --cov-report=term-missing --cov-report=html", help = "Run tests and generate terminal and HTML coverage reports." }
+[tool.poe]
+include = "poe_tasks.toml"
 
-lint = { cmd = "ruff check app tests --ignore D100,D101,D102", help = "Lint application and test code, excluding deferred documentation checks." }
-lint-fix = { cmd = "ruff check app tests --ignore D100,D101,D102 --fix", help = "Apply safe Ruff fixes, excluding deferred documentation checks." }
-lint-docs = { cmd = "ruff check app tests --select D100,D101,D102", help = "Check deferred module, class, and method documentation." }
-
-format = { cmd = "ruff format app tests", help = "Format application and test code." }
-format-check = { cmd = "ruff format --check app tests", help = "Verify formatting without modifying files." }
-
-typecheck = { cmd = "pyright", help = "Run strict static type checking." }
-
-check = { sequence = ["format-check", "lint", "typecheck", "test"], help = "Run the required backend quality checks." }
-check-all = { sequence = ["format-check", "lint", "lint-docs", "typecheck", "test"], help = "Run all checks, including documentation." }

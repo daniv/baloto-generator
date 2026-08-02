@@ -19,6 +19,24 @@ if TYPE_CHECKING:
     from collections.abc import Awaitable, Generator
 
 
+@pytest.hookimpl
+def pytest_addoption(parser: pytest.Parser) -> None:
+    """
+    Add command-line options for pytest.
+
+    :param parser: Pytest command-line parser.
+    :return: None
+    """
+    group = parser.getgroup("baloto-generator", "Baloto Generator custom options")
+    group.addoption(
+        "--game",
+        action="store",
+        default=None,
+        choices=["miloto", "baloto", "revancha"],
+        help="Run tests on the specified game. Options: miloto, baloto, revancha.",
+    )
+
+
 def run_async[T](awaitable: Awaitable[T]) -> T:
     """
     Run an async coroutine from synchronous test code.
